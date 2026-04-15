@@ -1,23 +1,34 @@
-# VisionWord
+# [nombre]
 
-##  Descripción
-VisionWord es una propuesta de proyecto que busca facilitar la comunicación entre un cuidador y un paciente con discapacidad múltiple, a través de una interfaz controlada por el movimiento ocular del usuario.
+## Porque un juego?
+[nombre] esta pensado para ser una opcion de entretención entre pares sin depender de la 
+ 
 
-##  Que se logra
-Lograr una detección ocular precisa utilizando C y C++, optimizando recursos del sistema sin depender de modelos pesados de inteligencia artificial. En
-una primera etapa se plantea implementar soluciones simples para garantizar rendimiento y eficiencia.
+##  Objetivos
+
+- 
 
 ##  Integrantes
-| Nombre | Rol| Correo |
-| --- | --- | --- |
-| - | - | @usm.cl |
-| - | - | @usm.cl |
-| - | - | @usm.cl |
-| - | - | @usm.cl |
+| Nombre | Rol|
+| --- | --- |
+| Tomás cea | - | 
+| Benja gaete | - |
+| Jorge muñoz | - |
+| Solange Azua | - |
+
+
+
+
+
+## Por hacer
+
+
+## Cambios
+
 
 ##  Estructura del repositorio
-- `/src` → Carpeta donde se guardará todo el código fuente
+- `/src` → Carpeta donde se guardará todo el código fuente.
+- `IA_USAGE.md` → Archivo con extención de texto donde queda explicito que modelos de IA y Prompts se usaron para el proyecto.
 
-
-#Por hacer
+## Pruebas
 
