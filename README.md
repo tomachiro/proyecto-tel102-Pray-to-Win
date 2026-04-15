@@ -8,17 +8,6 @@
 
 - 
 
-##  Integrantes
-| Nombre | Rol|
-| --- | --- |
-| Tomás cea | - | 
-| Benja gaete | - |
-| Jorge muñoz | - |
-| Solange Azua | - |
-
-
-
-
 
 ## Por hacer
 
@@ -31,4 +20,12 @@
 - `IA_USAGE.md` → Archivo con extención de texto donde queda explicito que modelos de IA y Prompts se usaron para el proyecto.
 
 ## Pruebas
+
+##  Integrantes
+| Nombre | Rol|
+| --- | --- |
+| Tomás cea | - | 
+| Benja gaete | - |
+| Jorge muñoz | - |
+| Solange Azua | - |
 
