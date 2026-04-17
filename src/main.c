@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "funciones.h"
 int main(void){
+    system("clear");
     int i=0;
     int n=0;
     int opcion;
@@ -21,6 +22,7 @@ int main(void){
         jugadores[0] = j1;
         jugadores[1] = j2;
     do{
+        system("clear");
         printf("Selecciona una opción\n1.Jugar\t\t2.Configuración\n3.Reglas\t4.Salir\n");
         scanf("%d",&opcion);
     switch (opcion)
@@ -31,15 +33,16 @@ int main(void){
             break;
         case 2:
             printf("presionaste 2\n");
-            i++;
+            printf("aun no hay nada\n");
             break;
         case 3:
-            printf("presionaste 3\n\t simplemente tira el dado");
-            i++;
+            printf("presionaste 3\n");
+            reglas();
             break;
         case 4:
-            printf("seleccionaste 4\n");
-            i++;
+            printf("seleccionaste 4\nsaliendo.\n");
+            system("clear");
+            return 1;
             break;
         
         default:
@@ -48,5 +51,6 @@ int main(void){
         } 
     }while(i==0);
     return 1;
+
 }
 
