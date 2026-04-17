@@ -10,7 +10,7 @@ struct jugador
     
 };
 //prototipo de las funciones
-int vida_consola(struct jugador[]);
+void interfaz_consola(struct jugador[]);
 int tirar_dado(struct jugador[]);
 int ataque(struct jugador[]);
 int curacion(struct jugador[]);
