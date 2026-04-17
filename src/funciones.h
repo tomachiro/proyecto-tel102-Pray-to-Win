@@ -7,14 +7,15 @@ struct jugador
     int vida;
     //ataque base
     int atq_b;
-    
+    //turno
+    int turno;
 };
 //prototipo de las funciones
-void interfaz_consola(struct jugador[]);
-int tirar_dado(struct jugador[]);
-int ataque(struct jugador[]);
-int curacion(struct jugador[]);
-int golpe_crit(struct jugador[]);
-int mejora_d(struct jugador[]);
-
+//int n se va a referir al jugador actual en turno
+int tirar_dado(struct jugador[],int n);
+int ataque(struct jugador[],int n);
+int curacion(struct jugador[],int n);
+int golpe_crit(struct jugador[],int n);
+int mejora_d(struct jugador[],int n);
+int jugar(struct jugador[],int n);
 
