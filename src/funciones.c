@@ -11,7 +11,7 @@ int jugar(struct jugador jugadores[],int n){
     int turno = n;
     int eleccion=0;
     do{
-        printf("turno del jugador%d, elije una opcion.\n",turno+1);
+        printf("turno del jugador %d, elije una opcion.\n",turno+1);
         printf("1.atacar\t2.dudar");
         scanf("%d",&eleccion);
         switch (eleccion)

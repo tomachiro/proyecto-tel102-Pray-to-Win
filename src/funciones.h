@@ -17,5 +17,6 @@ int ataque(struct jugador[],int n);
 int curacion(struct jugador[],int n);
 int golpe_crit(struct jugador[],int n);
 int mejora_d(struct jugador[],int n);
+//jugar es donde se ejecuta el juego por turnos
 int jugar(struct jugador[],int n);
 

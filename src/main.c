@@ -34,7 +34,7 @@ int main(void){
             i++;
             break;
         case 3:
-            printf("presionaste 3\n");
+            printf("presionaste 3\n\t simplemente tira el dado");
             i++;
             break;
         case 4:
