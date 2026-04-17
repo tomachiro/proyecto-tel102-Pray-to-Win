@@ -16,6 +16,7 @@ int tirar_dado(struct jugador jugadores[],int n){
 int ataque(struct jugador jugadores[],int n,int dado){
     int dmg=0;
     dmg =(jugadores[n].atq_b/2)*dado;
+    jugadores[(n+1)%2].vida-=dmg;
     return dmg;
 }
 
@@ -36,7 +37,7 @@ int jugar(struct jugador jugadores[],int n){
             //se asignan los valores correspondientes al turno
             dado = tirar_dado(jugadores,turno);
             dmg = ataque(jugadores,turno,dado);
-            jugadores[(turno+1)%2].vida-=dmg;
+            
             system("clear");
             printf("toco %d\n",dado);
             printf("le quitaste: %d puntos de vida al jugador %d\n",(dmg),(turno+1)%2);
