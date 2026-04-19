@@ -4,7 +4,7 @@ struct jugador
     //tipo de dado
     int tipo_dado;
     //vida maxima
-    int vida;
+    float vida;
     //ataque base
     int atq_b;
     //turno
@@ -16,7 +16,7 @@ struct jugador
 int reglas(void);
 int tirar_dado(struct jugador[],int n);
 int ataque(struct jugador[],int n,int dado);
-int curacion(struct jugador[],int n);
+int cura(struct jugador[],int n,int dado);
 int golpe_crit(struct jugador[],int n);
 int mejora_d(struct jugador[],int n);
 //jugar es donde se ejecuta el juego por turnos

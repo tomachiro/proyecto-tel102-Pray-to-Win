@@ -2,6 +2,40 @@
 #include <stdlib.h>
 
 
+//aqui empieza el robo de codigo
+void clean_buffer(){
+    char c;
+    while ((c = getchar()) != EOF && c != '\n');
+} /* This will clean the buffer */
+
+void stop_system(){
+    clean_buffer();
+    printf("Presiona enter para continuar...");
+    getchar();
+} /* This will wait for the user to press Enter, similar to system("pause") */
+
+/*codigo sacado directamente de https://askubuntu.com/questions/980804/systempause-for-linux-in-gcc-c#:~:text=If%20you%20don't%20call%20clean_buffer()%20inside%20stop_system(),it's%20important%20to%20clean%20the%20buffer%20first.*/
+
+
+
+//aqui vuelve a ser codigo a manita
+int cura(struct jugador jugadores[],int n,int dado){
+    int cur=0;
+    cur =((100-jugadores[n].vida)/14)*dado; 
+    if(jugadores[n].vida>=100){
+        printf("ya tienes vida suficiente\n");
+    }else if (cur>0)
+    {
+        jugadores[n].vida=jugadores[n].vida+cur;
+        printf("te curaste: %d puntos de vida\n",(cur));
+        return 1;
+    }
+    else{
+        printf("no te has podido curar");
+        return 1;
+    }
+}
+
 int reglas(void){
    system("clear");
    printf("aqui deberian ir reglas\naun no hay nada :3\n");
@@ -22,13 +56,22 @@ int ataque(struct jugador jugadores[],int n,int dado){
 
 int jugar(struct jugador jugadores[],int n){
     int turno = n;
-    int eleccion=0;
+    int eleccion;
+
+    //aqui reinicia los valores base de los jugadores por si se vuelve a inciar e juego sin terminar el codigo
+    for(int i=0;i!=2;i++){
+    jugadores[i].tipo_dado = 6;
+    jugadores[i].vida = 100;
+    jugadores[i].atq_b = 10;
+    }
+
+
     do{
         int rendirse=0;
         system("clear");
-        printf("vida jugador 1:%d\t vida jugador 2:%d\n",jugadores[0].vida,jugadores[1].vida);
+        printf("vida jugador 1:%f\t vida jugador 2:%f\n",jugadores[0].vida,jugadores[1].vida);
         printf("turno del jugador %d, elije una opcion.\n",turno+1);
-        printf("1.atacar\t2.cudar\t\t3.mejorar\t4.rendirse\n");
+        printf("1.atacar\t2.curar\t\t3.mejorar\t4.rendirse\n");
         scanf("%d",&eleccion);
         switch (eleccion)
         {
@@ -43,16 +86,27 @@ int jugar(struct jugador jugadores[],int n){
             es el turno del jugador 2 y el turno 0 es del jugador 1*/ 
             system("clear");
             printf("toco %d\n",dado);
-            printf("le quitaste: %d puntos de vida al jugador %d\n",(dmg),((turno+1)%2)+1);
-            printf("pulsa enter para continuar\n");
-            
-            
-            //intentar implementar un "pulsar enter para continuar"
+            printf("le quitaste: %d puntos de vida al jugador %d\n",(dmg),((turno+1)%2)+1);            
+            stop_system();
             //solo hace el cambio de turno cuando es necesario
             turno=(turno+1)%2;
             break;
-        case 2:
-            printf("hola\n");
+        case 2:            
+            dado=0;
+            int cur=0;
+            //se asignan los valores correspondientes al turno
+            dado = tirar_dado(jugadores,turno);
+            //cur = cura(jugadores,turno,dado);
+            /*el (turno+1)%2 representa a nivel de codigo el jugador contrario al turno es decir si el turno es 1 a nivel de codigo
+            es el turno del jugador 2 y el turno 0 es del jugador 1*/ 
+            system("clear");
+            printf("toco %d\n",dado);
+            cur =cura(jugadores,turno,dado);
+            /*printf("te curaste: %d puntos de vida\n",(cur));
+            printf("pulsa enter para continuar\n");*/            
+            stop_system();
+            //solo hace el cambio de turno cuando es necesario
+            if(cur==1){turno=(turno+1)%2;}
             break;
         case 3:
             break;
@@ -65,6 +119,7 @@ int jugar(struct jugador jugadores[],int n){
                 switch(rendirse){
                     case 1:
                         printf("el jugador %d es el ganardor\n",((turno+1)%2)+1);
+                        stop_system();
                         //intentar implementar un "pulsar enter para continuar"
                         return 1;
                         break;
@@ -72,6 +127,7 @@ int jugar(struct jugador jugadores[],int n){
                         break;
                     default:
                         printf("opción no valida");
+                        stop_system();
                         break;
                 }             
             }while(rendirse==0);
@@ -80,6 +136,7 @@ int jugar(struct jugador jugadores[],int n){
         default:
             system("clear");
             printf("sueltenme\n");
+            stop_system();
             return 1;
             break;
         }
