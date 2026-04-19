@@ -94,16 +94,10 @@ int jugar(struct jugador jugadores[],int n){
         case 2:            
             dado=0;
             int cur=0;
-            //se asignan los valores correspondientes al turno
             dado = tirar_dado(jugadores,turno);
-            //cur = cura(jugadores,turno,dado);
-            /*el (turno+1)%2 representa a nivel de codigo el jugador contrario al turno es decir si el turno es 1 a nivel de codigo
-            es el turno del jugador 2 y el turno 0 es del jugador 1*/ 
             system("clear");
             printf("toco %d\n",dado);
             cur =cura(jugadores,turno,dado);
-            /*printf("te curaste: %d puntos de vida\n",(cur));
-            printf("pulsa enter para continuar\n");*/            
             stop_system();
             //solo hace el cambio de turno cuando es necesario
             if(cur==1){turno=(turno+1)%2;}
@@ -120,7 +114,6 @@ int jugar(struct jugador jugadores[],int n){
                     case 1:
                         printf("el jugador %d es el ganardor\n",((turno+1)%2)+1);
                         stop_system();
-                        //intentar implementar un "pulsar enter para continuar"
                         return 1;
                         break;
                     case 2:
