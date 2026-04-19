@@ -16,8 +16,6 @@ void stop_system(){
 
 /*codigo sacado directamente de https://askubuntu.com/questions/980804/systempause-for-linux-in-gcc-c#:~:text=If%20you%20don't%20call%20clean_buffer()%20inside%20stop_system(),it's%20important%20to%20clean%20the%20buffer%20first.*/
 //necesidad de querer pausar el codigo y no querer entender porque 
-
-
 //aqui vuelve a ser codigo a manita
 int cura(struct jugador jugadores[],int n,int dado){
     int cur=0;
