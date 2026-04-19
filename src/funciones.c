@@ -15,9 +15,7 @@ void stop_system(){
 } /* This will wait for the user to press Enter, similar to system("pause") */
 
 /*codigo sacado directamente de https://askubuntu.com/questions/980804/systempause-for-linux-in-gcc-c#:~:text=If%20you%20don't%20call%20clean_buffer()%20inside%20stop_system(),it's%20important%20to%20clean%20the%20buffer%20first.*/
-
-
-
+//necesidad de querer pausar el codigo y no querer entender porque 
 //aqui vuelve a ser codigo a manita
 int cura(struct jugador jugadores[],int n,int dado){
     int cur=0;
@@ -36,10 +34,11 @@ int cura(struct jugador jugadores[],int n,int dado){
     }
 }
 
-int reglas(void){
+void reglas(void){
    system("clear");
    printf("aqui deberian ir reglas\naun no hay nada :3\n");
-   return 1; 
+   stop_system();
+   return; 
 }
 
 int tirar_dado(struct jugador jugadores[],int n){
@@ -56,7 +55,6 @@ int ataque(struct jugador jugadores[],int n,int dado){
 
 int jugar(struct jugador jugadores[],int n){
     int turno = n;
-    int eleccion;
 
     //aqui reinicia los valores base de los jugadores por si se vuelve a inciar e juego sin terminar el codigo
     for(int i=0;i!=2;i++){
@@ -67,15 +65,16 @@ int jugar(struct jugador jugadores[],int n){
 
 
     do{
-        int rendirse=0;
+        char eleccion;
+        char rendirse;
         system("clear");
         printf("vida jugador 1:%f\t vida jugador 2:%f\n",jugadores[0].vida,jugadores[1].vida);
         printf("turno del jugador %d, elije una opcion.\n",turno+1);
         printf("1.atacar\t2.curar\t\t3.mejorar\t4.rendirse\n");
-        scanf("%d",&eleccion);
+        scanf(" %c",&eleccion);
         switch (eleccion)
         {
-        case 1:
+        case '1':
             //reinicia la variable dado para evitar errores en cada iteracion del while
             int dado=0;
             int dmg=0;
@@ -91,7 +90,7 @@ int jugar(struct jugador jugadores[],int n){
             //solo hace el cambio de turno cuando es necesario
             turno=(turno+1)%2;
             break;
-        case 2:            
+        case '2':            
             dado=0;
             int cur=0;
             dado = tirar_dado(jugadores,turno);
@@ -102,24 +101,25 @@ int jugar(struct jugador jugadores[],int n){
             //solo hace el cambio de turno cuando es necesario
             if(cur==1){turno=(turno+1)%2;}
             break;
-        case 3:
+        case '3':
             break;
-        case 4:
+        case '4':
             do{
                 system("clear");
                 printf("seguro de rendirte jugador %d?\n",turno+1);
                 printf("1.si\t2.no\n");
-                scanf("%d",&rendirse);
+                scanf(" %c",&rendirse);
                 switch(rendirse){
-                    case 1:
+                    case '1':
+                        system("clear");
                         printf("el jugador %d es el ganardor\n",((turno+1)%2)+1);
                         stop_system();
                         return 1;
                         break;
-                    case 2:
+                    case '2':
                         break;
                     default:
-                        printf("opción no valida");
+                        printf("opción no valida\n");
                         stop_system();
                         break;
                 }             
@@ -130,7 +130,6 @@ int jugar(struct jugador jugadores[],int n){
             system("clear");
             printf("sueltenme\n");
             stop_system();
-            return 1;
             break;
         }
     
