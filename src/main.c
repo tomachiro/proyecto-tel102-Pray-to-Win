@@ -28,7 +28,6 @@ int main(void){
         jugadores[i].vida = 100;
         jugadores[i].atq_b = 10;
         jugadores[i].turno=i;
-        //se agrega 13 para tambien contar el \0
         strcpy(jugadores[i].vida_c, "[----------]");    
         }
     do{
