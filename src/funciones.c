@@ -22,18 +22,20 @@ void stop_system(){
 //aqui vuelve a ser codigo a manita
 void mostrar_vida(struct jugador jugadores[]){
     //no es necesario poner un largo para cada vida porque comparten largo en todo momento
+    
     for(int x=0;x!=2;x++){
         //es la vida faltante actual del jugador para usarlo al modificar 
+        strcpy(jugadores[x].vida_c, "[----------]");
         int vida = jugadores[x].vida;
-        int vida_f= ((100-vida)/10);
+        int vida_f= 10-((100-vida)/10);
         for(int i=0;i!=vida_f;i+=1){
-            jugadores[x].vida_c[i+1] = '-';
+            jugadores[x].vida_c[i+1] = 'x';
 
         }
 
 
     }   
-    printf("%s\t%s\n",jugadores[0].vida_c,jugadores[1].vida_c);
+    printf("\t%s\t\t\t%s\n",jugadores[0].vida_c,jugadores[1].vida_c);
     return;
 }
 
@@ -82,7 +84,7 @@ int jugar(struct jugador jugadores[],int n){
     jugadores[i].tipo_dado = 6;
     jugadores[i].vida = 100;
     jugadores[i].atq_b = 10;
-    strcpy(jugadores[i].vida_c, "[xxxxxxxxxx]");  
+    strcpy(jugadores[i].vida_c, "[----------]");  
     }
 
 
