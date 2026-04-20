@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "funciones.h"
 int main(void){
     system("clear");
@@ -27,6 +28,8 @@ int main(void){
         jugadores[i].vida = 100;
         jugadores[i].atq_b = 10;
         jugadores[i].turno=i;
+        //se agrega 13 para tambien contar el \0
+        strcpy(jugadores[i].vida_c, "[xxxxxxxxxx]");    
         }
     do{
         system("clear");

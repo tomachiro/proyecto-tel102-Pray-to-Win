@@ -9,11 +9,15 @@ struct jugador
     int atq_b;
     //turno
     int turno;
+    //vida que se mostrara en consola
+    char vida_c[13];
+    
 };
 //prototipo de las funciones
 //int n se va a referir al jugador actual en turno
 //int dado es el valor del dado que toco en el turno 
 void reglas(void);
+void mostrar_vida(struct jugador[]);
 int tirar_dado(struct jugador[],int n);
 int ataque(struct jugador[],int n,int dado);
 int cura(struct jugador[],int n,int dado);

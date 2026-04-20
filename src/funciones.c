@@ -1,5 +1,6 @@
 #include "funciones.h"
 #include <stdlib.h>
+#include <string.h>
 
 
 //aqui empieza el robo de codigo
@@ -15,8 +16,28 @@ void stop_system(){
 } /* This will wait for the user to press Enter, similar to system("pause") */
 
 /*codigo sacado directamente de https://askubuntu.com/questions/980804/systempause-for-linux-in-gcc-c#:~:text=If%20you%20don't%20call%20clean_buffer()%20inside%20stop_system(),it's%20important%20to%20clean%20the%20buffer%20first.*/
-//necesidad de querer pausar el codigo y no querer entender porque 
+//necesidad de querer pausar el codigo y no querer entender porque funciona (muchos intentos autonomos no dieron resultados)
+
+
 //aqui vuelve a ser codigo a manita
+void mostrar_vida(struct jugador jugadores[]){
+    //no es necesario poner un largo para cada vida porque comparten largo en todo momento
+    for(int x=0;x!=2;x++){
+        //es la vida faltante actual del jugador para usarlo al modificar 
+        int vida = jugadores[x].vida;
+        int vida_f= ((100-vida)/10);
+        for(int i=0;i!=vida_f;i+=1){
+            jugadores[x].vida_c[i+1] = '-';
+
+        }
+
+
+    }   
+    printf("%s\t%s\n",jugadores[0].vida_c,jugadores[1].vida_c);
+    return;
+}
+
+
 int cura(struct jugador jugadores[],int n,int dado){
     int cur=0;
     cur =((100-jugadores[n].vida)/14)*dado; 
@@ -29,7 +50,7 @@ int cura(struct jugador jugadores[],int n,int dado){
         return 1;
     }
     else{
-        printf("no te has podido curar");
+        printf("no te has podido curar\n");
         return 1;
     }
 }
@@ -61,6 +82,7 @@ int jugar(struct jugador jugadores[],int n){
     jugadores[i].tipo_dado = 6;
     jugadores[i].vida = 100;
     jugadores[i].atq_b = 10;
+    strcpy(jugadores[i].vida_c, "[xxxxxxxxxx]");  
     }
 
 
@@ -68,7 +90,8 @@ int jugar(struct jugador jugadores[],int n){
         char eleccion;
         char rendirse;
         system("clear");
-        printf("vida jugador 1:%f\t vida jugador 2:%f\n",jugadores[0].vida,jugadores[1].vida);
+        mostrar_vida(jugadores);
+        printf("vida jugador 1:%f\t vida jugador 2:%f\n",(jugadores[0].vida),(jugadores[1].vida));
         printf("turno del jugador %d, elije una opcion.\n",turno+1);
         printf("1.atacar\t2.curar\t\t3.mejorar\t4.rendirse\n");
         scanf(" %c",&eleccion);
@@ -131,6 +154,17 @@ int jugar(struct jugador jugadores[],int n){
             printf("sueltenme\n");
             stop_system();
             break;
+        }
+        if (jugadores[0].vida<=0){
+            system("clear");
+            printf("jugador 2 ha ganado..");
+            stop_system();
+            return 1;
+        }else if(jugadores[1].vida<=0){
+            system("clear");
+            printf("jugador 1 ha ganado..");
+            stop_system();
+            return 1;
         }
     
     }while(turno!=3);
