@@ -7,6 +7,11 @@ int main(void){
     int i=0;
     int n=0;
     char opcion;
+    struct configuracion config[1];
+        config[0].rond_muerte_sub=3;
+        config[0].modo_muerte_sub=0;
+        config[0].rond_mod=5;
+
 
     struct jugador jugadores[2];
         for (int i=0;i!=2;i++){
@@ -23,11 +28,13 @@ int main(void){
     switch (opcion)
         {
         case '1':
-            jugar(jugadores,n);
+            jugar(jugadores,n,config);
             break;
         case '2':
             system("clear");
-            printf("aun no hay nada\n");
+            printf("Esta es la configuración del sistema\n");
+            printf("me dio flojera hacer el switch\n");
+            //hacer un switch para cambiar las variables de la structura configuracion
             stop_system();
             break;
         case '3':

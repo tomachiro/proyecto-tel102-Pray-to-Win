@@ -20,6 +20,17 @@ void stop_system(){
 
 
 //aqui vuelve a ser codigo a manita
+int muerte_sub(int n,struct configuracion config[]){
+    if (n == config[0].rond_muerte_sub){
+        system("clear");
+        printf("Es la ronda %d. la muerte subita empieza\n",n);
+        config[0].modo_muerte_sub=1;
+        //retorna 1 para expresar si la muerte subita esta activa
+        return 1;
+    }else{return 0;}
+
+}
+
 void mostrar_vida(struct jugador jugadores[]){
     for(int x=0;x!=2;x++){
         //la vida visual se inicia en 0 para ir aumentando en cada iteracion 
@@ -38,20 +49,25 @@ void mostrar_vida(struct jugador jugadores[]){
 }
 
 
-int cura(struct jugador jugadores[],int n,int dado){
-    int cur=0;
-    cur =((100-jugadores[n].vida)/14)*dado; 
-    if(jugadores[n].vida>=100){
-        printf("ya tienes vida suficiente\n");
-    }else if (cur>0)
-    {
-        jugadores[n].vida=jugadores[n].vida+cur;
-        printf("te curaste: %d puntos de vida\n",(cur));
-        return 1;
-    }
-    else{
-        printf("no te has podido curar\n");
-        return 1;
+int cura(struct jugador jugadores[],int n,int dado,struct configuracion config[]){
+    if( config[0].modo_muerte_sub==1){
+        printf("Estas en muerte subita. no te puedes curar\n");
+        stop_system();
+    }else{
+        int cur=0;
+        cur =((100-jugadores[n].vida)/14)*dado; 
+        if(jugadores[n].vida>=100){
+            printf("ya tienes vida suficiente\n"); 
+        }else if (cur>0)
+        {
+            jugadores[n].vida=jugadores[n].vida+cur;
+            printf("te curaste: %d puntos de vida\n",(cur));
+            return 1;
+        }
+        else{
+            printf("no te has podido curar\n");
+            return 1;
+        }
     }
 }
 
@@ -67,15 +83,16 @@ int tirar_dado(struct jugador jugadores[],int n){
     num = (rand()%jugadores[n].tipo_dado )+1;
     return num;
 }
-int ataque(struct jugador jugadores[],int n,int dado){
+int ataque(struct jugador jugadores[],int n,int dado,struct configuracion[]){
     int dmg=0;
     dmg =(jugadores[n].atq_b/2)*dado;
     jugadores[(n+1)%2].vida-=dmg;
     return dmg;
 }
 
-int jugar(struct jugador jugadores[],int n){
+int jugar(struct jugador jugadores[],int n,struct configuracion config[]){
     //aqui se define la variable para cuando se implemente la configuracion decidir que jugador empieza
+    int ronda=1;
     int turno = n;
 
     //aqui el for funciona para cambiar entre jugador 1 y 2
@@ -95,6 +112,7 @@ int jugar(struct jugador jugadores[],int n){
         int dado;
         int dmg;
         system("clear");
+        muerte_sub(ronda,config);
         mostrar_vida(jugadores);
         printf("vida jugador 1:%f\t vida jugador 2:%f\n",(jugadores[0].vida),(jugadores[1].vida));
         printf("turno del jugador %d, elije una opcion.\n",turno+1);
@@ -110,7 +128,7 @@ int jugar(struct jugador jugadores[],int n){
             dmg=0;
             //se asignan los valores correspondientes al turno
             dado = tirar_dado(jugadores,turno);
-            dmg = ataque(jugadores,turno,dado);
+            dmg = ataque(jugadores,turno,dado,config);
             /*el (turno+1)%2 representa a nivel de codigo el jugador contrario al turno es decir si el turno es 1 a nivel de codigo
             es el turno del jugador 2 y el turno 0 es del jugador 1*/ 
             system("clear");
@@ -119,16 +137,20 @@ int jugar(struct jugador jugadores[],int n){
             stop_system();
             //solo hace el cambio de turno cuando es necesario
             turno=(turno+1)%2;
+            ronda+=1;
             break;
         case '2':            
             dado=0;
             dado = tirar_dado(jugadores,turno);
             system("clear");
             printf("toco %d\n",dado);
-            int cur =cura(jugadores,turno,dado);
+            int cur =cura(jugadores,turno,dado,config);
             stop_system();
             //solo hace el cambio de turno cuando se tira el dado satisfactoriamente 
-            if(cur==1){turno=(turno+1)%2;}
+            if(cur==1){
+                ronda+=1;
+                turno=(turno+1)%2;
+            }
             break;
         case '3':
             system("clear");
