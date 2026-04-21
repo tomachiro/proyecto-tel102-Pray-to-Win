@@ -21,19 +21,17 @@ void stop_system(){
 
 //aqui vuelve a ser codigo a manita
 void mostrar_vida(struct jugador jugadores[]){
-    //no es necesario poner un largo para cada vida porque comparten largo en todo momento
-    
     for(int x=0;x!=2;x++){
-        //es la vida faltante actual del jugador para usarlo al modificar 
+        //la vida visual se inicia en 0 para ir aumentando en cada iteracion 
         strcpy(jugadores[x].vida_c, "[----------]");
+        //variable hecha para facilitar la lectura en un futuro y no tener que trabajar directamente con la vida del jugador
         int vida = jugadores[x].vida;
+        //vida_f es la vida faltante para saber cuantas x (vida en enteros de 10) tiene que colocar
         int vida_f= 10-((100-vida)/10);
         for(int i=0;i!=vida_f;i+=1){
             jugadores[x].vida_c[i+1] = 'x';
 
         }
-
-
     }   
     printf("\t%s\t\t\t%s\n",jugadores[0].vida_c,jugadores[1].vida_c);
     return;
@@ -77,10 +75,12 @@ int ataque(struct jugador jugadores[],int n,int dado){
 }
 
 int jugar(struct jugador jugadores[],int n){
+    //aqui se define la variable para cuando se implemente la configuracion decidir que jugador empieza
     int turno = n;
 
-    //aqui reinicia los valores base de los jugadores por si se vuelve a inciar e juego sin terminar el codigo
+    //aqui el for funciona para cambiar entre jugador 1 y 2
     for(int i=0;i!=2;i++){
+    //aqui reinicia los valores base de los jugadores por si se vuelve a inciar e juego sin terminar el codigo
     jugadores[i].tipo_dado = 6;
     jugadores[i].vida = 100;
     jugadores[i].atq_b = 10;
@@ -89,8 +89,11 @@ int jugar(struct jugador jugadores[],int n){
 
 
     do{
+        //aqui el uso de variables se podria reducir evitando redundancias al re-iniciarlas en 0 todo el tiempo
         char eleccion;
         char rendirse;
+        int dado;
+        int dmg;
         system("clear");
         mostrar_vida(jugadores);
         printf("vida jugador 1:%f\t vida jugador 2:%f\n",(jugadores[0].vida),(jugadores[1].vida));
@@ -100,9 +103,11 @@ int jugar(struct jugador jugadores[],int n){
         switch (eleccion)
         {
         case '1':
+            //todo este codigo se podria migrar a la funcion ataque tirando el dado directamente en la función 
+        
             //reinicia la variable dado para evitar errores en cada iteracion del while
-            int dado=0;
-            int dmg=0;
+            dado=0;
+            dmg=0;
             //se asignan los valores correspondientes al turno
             dado = tirar_dado(jugadores,turno);
             dmg = ataque(jugadores,turno,dado);
@@ -117,16 +122,18 @@ int jugar(struct jugador jugadores[],int n){
             break;
         case '2':            
             dado=0;
-            int cur=0;
             dado = tirar_dado(jugadores,turno);
             system("clear");
             printf("toco %d\n",dado);
-            cur =cura(jugadores,turno,dado);
+            int cur =cura(jugadores,turno,dado);
             stop_system();
-            //solo hace el cambio de turno cuando es necesario
+            //solo hace el cambio de turno cuando se tira el dado satisfactoriamente 
             if(cur==1){turno=(turno+1)%2;}
             break;
         case '3':
+            system("clear");
+            printf("aun no hay nada\n");
+            stop_system();
             break;
         case '4':
             do{
@@ -142,8 +149,10 @@ int jugar(struct jugador jugadores[],int n){
                         return 1;
                         break;
                     case '2':
+                        // no seria necesario poner codigo ya que simplemente cerraria el switch y si se rinde volvemos a la funcion main
                         break;
                     default:
+                        system("clear");
                         printf("opción no valida\n");
                         stop_system();
                         break;
@@ -153,23 +162,21 @@ int jugar(struct jugador jugadores[],int n){
             break;
         default:
             system("clear");
-            printf("sueltenme\n");
+            printf("opción no valida\n");
             stop_system();
             break;
         }
-        if (jugadores[0].vida<=0){
+        
+       for(int i=0;i!=2;i++){
+        if(jugadores[i].vida<=0){
             system("clear");
-            printf("jugador 2 ha ganado..");
-            stop_system();
-            return 1;
-        }else if(jugadores[1].vida<=0){
-            system("clear");
-            printf("jugador 1 ha ganado..");
+            printf("jugador %d ha ganado..\n",(i+1%2));
             stop_system();
             return 1;
         }
-    
-    }while(turno!=3);
+       }
+    //deja while 1 ya que en todas las condiciones anteriores se retorna asi que nunca es un bucle infinito 
+    }while(1);
     return 1;
 
 }

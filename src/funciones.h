@@ -20,8 +20,10 @@ void reglas(void);
 void mostrar_vida(struct jugador[]);
 int tirar_dado(struct jugador[],int n);
 int ataque(struct jugador[],int n,int dado);
+//la funcion cura es 
 int cura(struct jugador[],int n,int dado);
 int golpe_crit(struct jugador[],int n);
+//mejora_d se refiere para poder mejorar el dado
 int mejora_d(struct jugador[],int n);
 //jugar es donde se ejecuta el juego por turnos
 int jugar(struct jugador[],int n);
