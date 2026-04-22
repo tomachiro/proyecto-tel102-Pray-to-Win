@@ -4,6 +4,7 @@
 
 
 //aqui empieza el robo de codigo
+
 void clean_buffer(){
     char c;
     while ((c = getchar()) != EOF && c != '\n');
@@ -20,14 +21,19 @@ void stop_system(){
 
 
 //aqui vuelve a ser codigo a manita
+
+
 int muerte_sub(int n,struct configuracion config[]){
     if (n == config[0].rond_muerte_sub){
         system("clear");
         printf("Es la ronda %d. la muerte subita empieza\n",n);
         config[0].modo_muerte_sub=1;
+        stop_system();
         //retorna 1 para expresar si la muerte subita esta activa
         return 1;
-    }else{return 0;}
+    }else{
+        return 0;
+    }
 
 }
 
@@ -52,7 +58,6 @@ void mostrar_vida(struct jugador jugadores[]){
 int cura(struct jugador jugadores[],int n,int dado,struct configuracion config[]){
     if( config[0].modo_muerte_sub==1){
         printf("Estas en muerte subita. no te puedes curar\n");
-        stop_system();
     }else{
         int cur=0;
         cur =((100-jugadores[n].vida)/14)*dado; 
@@ -112,7 +117,6 @@ int jugar(struct jugador jugadores[],int n,struct configuracion config[]){
         int dado;
         int dmg;
         system("clear");
-        muerte_sub(ronda,config);
         mostrar_vida(jugadores);
         printf("vida jugador 1:%f\t vida jugador 2:%f\n",(jugadores[0].vida),(jugadores[1].vida));
         printf("turno del jugador %d, elije una opcion.\n",turno+1);
@@ -138,6 +142,10 @@ int jugar(struct jugador jugadores[],int n,struct configuracion config[]){
             //solo hace el cambio de turno cuando es necesario
             turno=(turno+1)%2;
             ronda+=1;
+            //muerte_sub(ronda,config);
+            /* if (muerte_sub(ronda,config)==1){
+                system("clear");
+                stop_system();}*/
             break;
         case '2':            
             dado=0;
@@ -150,6 +158,8 @@ int jugar(struct jugador jugadores[],int n,struct configuracion config[]){
             if(cur==1){
                 ronda+=1;
                 turno=(turno+1)%2;
+                if (muerte_sub(ronda,config)==1){
+                    stop_system();}
             }
             break;
         case '3':
@@ -179,6 +189,7 @@ int jugar(struct jugador jugadores[],int n,struct configuracion config[]){
                         stop_system();
                         break;
                 }             
+            
             }while(rendirse==0);
 
             break;
@@ -192,11 +203,14 @@ int jugar(struct jugador jugadores[],int n,struct configuracion config[]){
        for(int i=0;i!=2;i++){
         if(jugadores[i].vida<=0){
             system("clear");
-            printf("jugador %d ha ganado..\n",(i+1%2));
+            printf("jugador %d ha ganado..\n",(((i+1)%2)+1));
             stop_system();
             return 1;
         }
        }
+    
+    muerte_sub(ronda,config);
+    
     //deja while 1 ya que en todas las condiciones anteriores se retorna asi que nunca es un bucle infinito 
     }while(1);
     return 1;
