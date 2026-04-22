@@ -50,11 +50,11 @@ El jugador puede rendirse en cualquier momento. El sistema pide confirmación an
 
 | Tarea | Estado |
 | --- | --- |
-| Menú principal | ✅ Hecho |
-| Ataque | ✅ Hecho |
-| Curación | ✅ Hecho |
-| Rendirse | ✅ Hecho |
-| Barra de vida en consola | ⬜ Pendiente |
+| Menú principal | [x] Hecho |
+| Ataque | [x] Hecho |
+| Curación | [x] Hecho |
+| Rendirse | [x] Hecho |
+| Barra de vida en consola | [x] Pendiente |
 
 ### Hito 2 (próximos pasos)
 
