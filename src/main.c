@@ -8,7 +8,7 @@ int main(void){
     int n=0;
     char opcion;
     struct configuracion config[1];
-        config[0].rond_muerte_sub=3;
+        config[0].rond_muerte_sub=10;
         config[0].modo_muerte_sub=0;
         config[0].rond_mod=5;
 
@@ -19,7 +19,9 @@ int main(void){
         jugadores[i].vida = 100;
         jugadores[i].atq_b = 10;
         jugadores[i].turno=i;
-        strcpy(jugadores[i].vida_c, "[----------]");    
+        jugadores[i].presicion=0.5;
+        strcpy(jugadores[i].vida_c, "[----------]");
+
         }
     do{
         system("clear");

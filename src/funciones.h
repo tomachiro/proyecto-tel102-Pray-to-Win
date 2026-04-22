@@ -17,6 +17,8 @@ struct jugador
     int turno;
     //vida que se mostrara en consola
     char vida_c[13];
+
+    double presicion;
     
 };
 //prototipo de las funciones
