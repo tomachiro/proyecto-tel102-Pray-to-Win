@@ -102,7 +102,7 @@ int acertar_golpe(void){
     }
     return 0; 
 }
-int ataque(struct jugador jugadores[],int n,int dado){
+int ataque(struct jugador jugadores[],int n,int dado,struct configuracion config[]){
     int dmg=0;
     int acertado = acertar_golpe();
     if (acertado == 0) {
