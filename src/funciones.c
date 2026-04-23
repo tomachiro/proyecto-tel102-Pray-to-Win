@@ -46,9 +46,32 @@ int tirar_dado(struct jugador jugadores[],int n){
     num = (rand()%jugadores[n].tipo_dado )+1;
     return num;
 }
+int golpe_crit(void){
+    int probabilidad = (rand() % 100) + 1;
+    if (probabilidad <= 20) {
+        return 1; // Golpe Critico
+    }
+    return 0; // No es Golpe Critico
+}
+int acertar_golpe(void){
+    int probabilidad = (rand() % 100) + 1;
+    if (probabilidad <= 50) {
+        return 1; // Golpe Acertado 50%
+    }
+    return 0; 
+}
 int ataque(struct jugador jugadores[],int n,int dado){
     int dmg=0;
+    int acertado = acertar_golpe();
+    if (acertado == 0) {
+        return 0; // Golpe fallido, no causa daño
+    }
+    int critico = golpe_crit();
     dmg =(jugadores[n].atq_b/2)*dado;
+    if (critico == 1 ){
+        // se podria coloar un mensaje de golpe critico
+        dmg=dmg*100;
+    }
     jugadores[(n+1)%2].vida-=dmg;
     return dmg;
 }

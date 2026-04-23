@@ -17,7 +17,8 @@ void reglas(void);
 int tirar_dado(struct jugador[],int n);
 int ataque(struct jugador[],int n,int dado);
 int cura(struct jugador[],int n,int dado);
-int golpe_crit(struct jugador[],int n);
+int golpe_crit(void);
+int acertar_golpe(void);
 int mejora_d(struct jugador[],int n);
 //jugar es donde se ejecuta el juego por turnos
 int jugar(struct jugador[],int n);

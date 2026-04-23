@@ -54,7 +54,7 @@ El jugador puede rendirse en cualquier momento. El sistema pide confirmación an
 | Ataque | [x] Hecho |
 | Curación | [x] Hecho |
 | Rendirse | [x] Hecho |
-| Barra de vida en consola | [x] Pendiente |
+| Barra de vida en consola | [x] Hecho  |
 
 ### Hito 2 (próximos pasos)
 
