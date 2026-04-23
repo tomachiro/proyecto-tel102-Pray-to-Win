@@ -99,6 +99,9 @@ int jugar(struct jugador jugadores[],int n,struct configuracion config[]){
     //aqui se define la variable para cuando se implemente la configuracion decidir que jugador empieza
     int ronda=1;
     int turno = n;
+    int inicio = n;
+    char log[100][200];
+    int log_count = 0;
 
     //aqui el for funciona para cambiar entre jugador 1 y 2
     for(int i=0;i!=2;i++){
@@ -120,7 +123,7 @@ int jugar(struct jugador jugadores[],int n,struct configuracion config[]){
         mostrar_vida(jugadores);
         printf("vida jugador 1:%f\t vida jugador 2:%f\n",(jugadores[0].vida),(jugadores[1].vida));
         printf("turno del jugador %d, elije una opcion.\n",turno+1);
-        printf("1.atacar\t2.curar\t\t3.mejorar\t4.rendirse\n");
+        printf("1.atacar\t2.curar\t\t3.mejorar\t4.rendirse\t5.ver log\n");
         scanf(" %c",&eleccion);
         switch (eleccion)
         {
@@ -139,9 +142,19 @@ int jugar(struct jugador jugadores[],int n,struct configuracion config[]){
             printf("toco %d\n",dado);
             printf("le quitaste: %d puntos de vida al jugador %d\n",(dmg),((turno+1)%2)+1);            
             stop_system();
+            if (turno == inicio) {
+                sprintf(log[log_count], "\n\033[1mRonda %d:\033[0m Jugador %d ataca con dado %d, quita %d vida a Jugador %d", ronda, turno+1, dado, dmg, ((turno+1)%2)+1);
+                log_count++;
+            } else {
+                char buffer[120];
+                sprintf(buffer, ", Jugador %d ataca con dado %d, quita %d vida a Jugador %d", turno+1, dado, dmg, ((turno+1)%2)+1);
+                strcat(log[log_count-1], buffer);
+            }
             //solo hace el cambio de turno cuando es necesario
             turno=(turno+1)%2;
-            ronda+=1;
+            if (turno == inicio) {
+                ronda+=1;
+            }
             //muerte_sub(ronda,config);
             /* if (muerte_sub(ronda,config)==1){
                 system("clear");
@@ -154,10 +167,20 @@ int jugar(struct jugador jugadores[],int n,struct configuracion config[]){
             printf("toco %d\n",dado);
             int cur =cura(jugadores,turno,dado,config);
             stop_system();
+            if (turno == inicio) {
+                sprintf(log[log_count], "\n\033[1mRonda %d:\033[0m Jugador %d cura con dado %d, recupera %d vida", ronda, turno+1, dado, cur);
+                log_count++;
+            } else {
+                char buffer[120];
+                sprintf(buffer, ", Jugador %d cura con dado %d, recupera %d vida", turno+1, dado, cur);
+                strcat(log[log_count-1], buffer);
+            }
             //solo hace el cambio de turno cuando se tira el dado satisfactoriamente 
             if(cur==1){
-                ronda+=1;
                 turno=(turno+1)%2;
+                if (turno == inicio) {
+                    ronda+=1;
+                }
                 if (muerte_sub(ronda,config)==1){
                     stop_system();}
             }
@@ -177,6 +200,14 @@ int jugar(struct jugador jugadores[],int n,struct configuracion config[]){
                     case '1':
                         system("clear");
                         printf("el jugador %d es el ganardor\n",((turno+1)%2)+1);
+                        if (turno == inicio) {
+                            sprintf(log[log_count], "\n\033[1mRonda %d:\033[0m Jugador %d se rinde, Jugador %d gana", ronda, turno+1, ((turno+1)%2)+1);
+                            log_count++;
+                        } else {
+                            char buffer[120];
+                            sprintf(buffer, ", Jugador %d se rinde, Jugador %d gana", turno+1, ((turno+1)%2)+1);
+                            strcat(log[log_count-1], buffer);
+                        }
                         stop_system();
                         return 1;
                         break;
@@ -193,6 +224,11 @@ int jugar(struct jugador jugadores[],int n,struct configuracion config[]){
             }while(rendirse==0);
 
             break;
+        case '5':
+            system("clear");
+            for(int i=0;i<log_count;i++) printf("%s\n",log[i]);
+            stop_system();
+            break;
         default:
             system("clear");
             printf("opción no valida\n");
@@ -202,6 +238,8 @@ int jugar(struct jugador jugadores[],int n,struct configuracion config[]){
         
        for(int i=0;i!=2;i++){
         if(jugadores[i].vida<=0){
+            sprintf(log[log_count], "\n\033[1mRonda %d:\033[0m Jugador %d gana por derrota del oponente", ronda, ((i+1)%2)+1);
+            log_count++;
             system("clear");
             printf("jugador %d ha ganado..\n",(((i+1)%2)+1));
             stop_system();
@@ -209,7 +247,11 @@ int jugar(struct jugador jugadores[],int n,struct configuracion config[]){
         }
        }
     
-    muerte_sub(ronda,config);
+    int activada = muerte_sub(ronda,config);
+    if(activada){
+        sprintf(log[log_count], "\n\033[1mRonda %d:\033[0m Muerte súbita activada", ronda);
+        log_count++;
+    }
     
     //deja while 1 ya que en todas las condiciones anteriores se retorna asi que nunca es un bucle infinito 
     }while(1);
