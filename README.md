@@ -45,16 +45,17 @@ El jugador lanza un dado. La curación se calcula como ((100 - vida_actual) / 14
 El jugador puede rendirse en cualquier momento. El sistema pide confirmación antes de terminar. Si confirma, el oponente es declarado ganador.
 
 ## Estado del Proyecto
-
 ### Hito 1
 
 | Tarea | Estado |
 | --- | --- |
-| Menú principal | [x] Hecho |
-| Ataque | [x] Hecho |
-| Curación | [x] Hecho |
-| Rendirse | [x] Hecho |
-| Barra de vida en consola | [x] Hecho  |
+| Menú principal | ✅ Hecho |
+| Ataque | ✅ Hecho |
+| Curación | ✅ Hecho |
+| Rendirse | ✅ Hecho |
+| Barra de vida en consola | ✅ Hecho |
+| Sistema de logs de batalla | ✅ Hecho |
+| Muerte súbita | ✅ Hecho |
 
 ### Hito 2 (próximos pasos)
 
