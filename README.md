@@ -22,10 +22,10 @@ Crear un juego por turnos en lenguaje C, jugable en consola, donde dos jugadores
 
 | Nombre | Rol |
 | --- | --- |
-| Tomás Cea |  |
-| Benja Gaete |  |
-| Jorge Muñoz |  |
-| Solange Azua |  |
+| Tomás Cea | Scrum Master |
+| Benja Gaete | Equipo |
+| Jorge Muñoz | Equipo |
+| Solange Azua | Product Owner |
 
 ## Funcionalidades Implementadas
 
