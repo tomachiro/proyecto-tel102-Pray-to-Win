@@ -11,6 +11,8 @@ int main(void){
         config[0].rond_muerte_sub=10;
         config[0].modo_muerte_sub=0;
         config[0].rond_mod=5;
+        config[0].golpe_critico=1.5;
+        config[0].acierto=80;
 
 
     struct jugador jugadores[2];
@@ -19,7 +21,6 @@ int main(void){
         jugadores[i].vida = 100;
         jugadores[i].atq_b = 10;
         jugadores[i].turno=i;
-        jugadores[i].presicion=0.5;
         strcpy(jugadores[i].vida_c, "[----------]");
 
         }
@@ -35,8 +36,7 @@ int main(void){
         case '2':
             system("clear");
             printf("Esta es la configuración del sistema\n");
-            printf("me dio flojera hacer el switch\n");
-            //hacer un switch para cambiar las variables de la structura configuracion
+            configuraciones(config);
             stop_system();
             break;
         case '3':
