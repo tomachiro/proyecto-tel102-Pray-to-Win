@@ -136,7 +136,7 @@ void configuraciones(struct configuracion config[]){
     while(1){    
         system("clear");
         printf("elige lo que quieres modificar\n");
-        printf("1.ronda de muerte subita=%d\n2.probabilidad de critico=%f\n3.probabilidad de acierto=%d\n",config[0].rond_muerte_sub,config[0].golpe_critico,config[0].acierto);
+        printf("1.ronda de muerte subita=%d\n2.probabilidad de critico=%f\n3.probabilidad de acierto=%d\n4.Salir\n",config[0].rond_muerte_sub,config[0].golpe_critico,config[0].acierto);
         scanf(" %c",&eleccion);
         switch (eleccion)
         {
@@ -146,7 +146,7 @@ void configuraciones(struct configuracion config[]){
             scanf("%d",&cambio);
             config[0].rond_muerte_sub=cambio;
             system("clear");
-            printf("se actualizo el valor a:%d",config[0].rond_muerte_sub);
+            printf("se actualizo el valor a:%d\n",config[0].rond_muerte_sub);
             stop_system();
             break;
         case '2':
@@ -155,7 +155,7 @@ void configuraciones(struct configuracion config[]){
             scanf("%f",&cambio_f);
             config[0].golpe_critico=cambio_f;
             system("clear");
-            printf("se actualizo el valor a:%f",config[0].golpe_critico);
+            printf("se actualizo el valor a:%f\n",config[0].golpe_critico);
             stop_system();
             break;
         case '3':
@@ -164,8 +164,11 @@ void configuraciones(struct configuracion config[]){
             scanf("%d",&cambio);
             config[0].acierto=cambio;
             system("clear");
-            printf("se actualizo el valor a:%d",config[0].acierto);
+            printf("se actualizo el valor a:%d\n",config[0].acierto);
             stop_system();
+            break;
+        case '4':
+            return;
             break;
         default:
             printf("opcion no valida");
