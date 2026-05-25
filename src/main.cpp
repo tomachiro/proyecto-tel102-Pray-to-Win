@@ -31,7 +31,7 @@ int main(void){
                 break;
             case '2':
                 std::system("clear");
-                std::cout<<"Esta es la configuración del sistema\n";
+                std::cout<<"Esta es la{ configuración del sistema\n";
                 configuraciones(config);
                 stop_system();
                 break;

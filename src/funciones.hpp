@@ -19,7 +19,6 @@ public:
     double vida;
     //ataque base
     int atq_b;
-    //turno
     int turno;
     //vida que se mostrara en consola
     char vida_c[13];
