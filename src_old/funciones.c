@@ -109,7 +109,7 @@ int golpe_crit(struct configuracion config[]){
 }
 int acertar_golpe(struct configuracion config[]){
     int probabilidad = (rand() % 100) + 1;
-    if (probabilidad <= 100-config[0].acierto) {
+    if (probabilidad <= config[0].acierto) {
         return 1; // Golpe Acertado 80% en base
     }
     return 0; 
