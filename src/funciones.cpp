@@ -17,7 +17,7 @@ void stop_system(){
 int muerte_sub(int n,class configuracion config){
     if (n == config.rond_muerte_sub){
         std::system("clear");
-        std::cout<<"Es la ronda %d. la muerte subita empieza\n",n;
+        std::cout << std::format("Es la ronda {}. La muerte súbita empieza", n) << std::endl;
         config.modo_muerte_sub=1;
         stop_system();
         //retorna 1 para expresar si la muerte subita esta activa
@@ -40,21 +40,21 @@ void mostrar_vida(class jugador jugadores[]){
 
         }
     }   
-    std::cout<<"\t%s\t\t\t%s\n",jugadores[0].vida_c,jugadores[1].vida_c;
+    std::cout<<std::format("\t{}\t\t\t{}",jugadores[0].vida_c,jugadores[1].vida_c)<<std::endl;
     return;
 }
 int cura(class jugador jugadores[],int n,int dado,class configuracion config){
     if( config.modo_muerte_sub==1){
-        printf("Estas en muerte subita. no te puedes curar\n");
+        std::cout<<"Estas en muerte subita. no te puedes curar"<<std::endl;
     }else{
         int cur=0;
         cur =((100-jugadores[n].vida)/14)*dado; 
         if(jugadores[n].vida>=100){
-            std::cout<<"ya tienes vida suficiente\n"; 
+            std::cout<<"ya tienes vida suficiente" <<std::endl; 
         }else if (cur>0)
         {
             jugadores[n].vida=jugadores[n].vida+cur;
-            std::cout<<"te curaste: %d puntos de vida\n",(cur);
+            std::cout<<std::format("te curaste: {} puntos de vida",(cur))<<std::endl;
             return 1;
         }
         else{
@@ -66,7 +66,7 @@ int cura(class jugador jugadores[],int n,int dado,class configuracion config){
 }
 void reglas(void){
    std::system("clear");
-   std::cout<<"Reglas del juego\npara cada acción tienes que tirar un dado y referente a este define que tan efectivo\nes la acción. no olvides\n";
+   std::cout<<"Reglas del juego\npara cada acción tienes que tirar un dado y referente a este define que tan efectivo\nes la acción. no olvides"<<std::endl;
    std::cout<<"1.ataca para eliminar al contrincante\n2.Curate para evitar ser eliminado\n3.Mejora el dado para tener mayores probabilidad de hacer más daño\n4.Reza por no fallar los ataques\n";
    stop_system();
    return; 
@@ -82,9 +82,9 @@ void mejora_d(class jugador jugadores[],int n){
     mejora=tirar_dado(jugadores,n);
     if(mejora==jugadores[n].tipo_dado){
         jugadores[n].tipo_dado +=2;
-        std::cout<<"tu dado ha sido mejorado";
+        std::cout<<"tu dado ha sido mejorado"<<std::endl;
     }else{
-        std::cout<<"no ha sido mejorado tu dado";
+        std::cout<<"no ha sido mejorado tu dado"<<std::endl;
     }
     return;
 }
@@ -128,42 +128,42 @@ void configuraciones(class configuracion config){
     while(1){    
         std::system("clear");
         std::cout<<"elige lo que quieres modificar\n";
-        std::cout<<"1.ronda de muerte subita=%d\n2.probabilidad de critico=%f\n3.probabilidad de acierto=%d\n4.Salir\n",config.rond_muerte_sub,config.golpe_critico,config.acierto;
-        std::cin>>&eleccion;
+        std::cout<<std::format("1.ronda de muerte subita={}\n2.probabilidad de critico={}\n3.probabilidad de acierto={}\n4.Salir",config.rond_muerte_sub,config.golpe_critico,config.acierto)<<std::endl;
+        std::cin>>eleccion;
         switch (eleccion)
         {
         case '1':
             std::system("clear");
-            std::cout<<"cambia el valor de ronda de muerte subita:\nactual=%d\n",config.rond_muerte_sub;
+            std::cout<<std::format("cambia el valor de ronda de muerte subita:\nactual={}",config.rond_muerte_sub)<<std::endl;
             std::cin>>cambio;
             config.rond_muerte_sub=cambio;
             std::system("clear");
-            std::cout<<"se actualizo el valor a:%d\n",config.rond_muerte_sub;
+            std::cout<<std::format("se actualizo el valor a:{}",config.rond_muerte_sub)<<std::endl;
             stop_system();
             break;
         case '2':
             std::system("clear");
-            std::cout<<"cambia el valor de golpe critico:\nactual=%f\n",config.golpe_critico;
+            std::cout<<std::format("cambia el valor de golpe critico:\nactual={}",config.golpe_critico)<<std::endl;
             std::cin>>cambio_f;
             config.golpe_critico=cambio_f;
             std::system("clear");
-            std::cout<<"se actualizo el valor a:%f\n",config.golpe_critico;
+            std::cout<<std::format("se actualizo el valor a:",config.golpe_critico)<<std::endl;
             stop_system();
             break;
         case '3':
             std::system("clear");
-            std::cout<<"cambia el valor de acierto:\nactual=%d\n",config.acierto;
+            std::cout<<std::format("cambia el valor de acierto:\nactual={}",config.acierto)<<std::endl;
             std::cin>>cambio;
             config.acierto=cambio;
             std::system("clear");
-            std::cout<<"se actualizo el valor a:%d\n",config.acierto;
+            std::cout<<std::format("se actualizo el valor a:{}",config.acierto)<<std::endl;
             stop_system();
             break;
         case '4':
             return;
             break;
         default:
-            std::cout<<"opcion no valida";
+            std::cout<<"opcion no valida"<<std::endl;
             stop_system();
             break;
         }
@@ -199,10 +199,10 @@ int jugar(class jugador jugadores[],int n,class configuracion config){
         int muerte_sub_activa = muerte_sub(ronda,config);
         std::system("clear");
         mostrar_vida(jugadores);
-        std::cout<<"vida jugador 1:%f\t vida jugador 2:%f\n",(jugadores[0].vida),(jugadores[1].vida);
-        std::cout<<"Dado=%d\t\t\t\t\tdado=%d\n",jugadores[0].tipo_dado,jugadores[1].tipo_dado;
-        std::cout<<"turno del jugador %d, elije una opcion.\n",turno+1;
-        std::cout<<"1.atacar\t2.curar\t\t3.mejorar\t4.rendirse\t5.ver log\n";
+        std::cout<<std::format("vida jugador 1:{}\t vida jugador 2:{}",(jugadores[0].vida),(jugadores[1].vida))<<std::endl;
+        std::cout<<std::format("Dado={}\t\t\t\t\tdado={}",jugadores[0].tipo_dado,jugadores[1].tipo_dado)<<std::endl;
+        std::cout<<std::format("turno del jugador {}, elije una opcion.",turno+1)<<std::endl;
+        std::cout<<"1.atacar\t2.curar\t\t3.mejorar\t4.rendirse\t5.ver log"<<std::endl;
         std::cin>>eleccion;
         switch (eleccion)
         {
@@ -218,8 +218,8 @@ int jugar(class jugador jugadores[],int n,class configuracion config){
             /*el (turno+1)%2 representa a nivel de codigo el jugador contrario al turno es decir si el turno es 1 a nivel de codigo
             es el turno del jugador 2 y el turno 0 es del jugador 1*/ 
             std::system("clear");
-            std::cout<<"toco %d\n",dado;
-            std::cout<<"le quitaste: %d puntos de vida al jugador %d\n",(dmg),((turno+1)%2)+1;            
+            std::cout<<std::format("toco {}",dado)<<std::endl;
+            std::cout<<std::format("le quitaste: {} puntos de vida al jugador {}",(dmg),((turno+1)%2)+1)<<std::endl;            
             stop_system();
             if (turno == inicio) {
                  //buscar la manera de traducir de sprintf a la fomra nativa de cpp
@@ -242,11 +242,11 @@ int jugar(class jugador jugadores[],int n,class configuracion config){
             dado=0;
             dado = tirar_dado(jugadores,turno);
             std::system("clear");
-            std::cout<<"toco %d\n",dado;
+            std::cout<<std::format("toco {}",dado)<<std::endl;
             int cur =cura(jugadores,turno,dado,config);
             stop_system();
             if (turno == inicio) {
-                std::cout<<log[log_count], "\n\033[1mRonda %d:\033[0m Jugador %d cura con dado %d, recupera %d vida", ronda, turno+1, dado, cur;
+                sprintf(log[log_count], "\n\033[1mRonda %d:\033[0m Jugador %d cura con dado %d, recupera %d vida", ronda, turno+1, dado, cur);
                 log_count++;
             } else {
                 char buffer[120];
@@ -274,13 +274,13 @@ int jugar(class jugador jugadores[],int n,class configuracion config){
         case '4':
             do{
                 std::system("clear");
-                std::cout<<"seguro de rendirte jugador %d?\n",turno+1;
-                std::cout<<"1.si\t2.no\n";
+                std::cout<<std::format("seguro de rendirte jugador {}?",turno+1)<<std::endl;
+                std::cout<<"1.si\t2.no"<<std::endl;
                 std::cin>>rendirse;
                 switch(rendirse){
                     case '1':
                         std::system("clear");
-                        std::cout<<"el jugador %d es el ganardor\n",((turno+1)%2)+1;
+                        std::cout<<std::format("el jugador {} es el ganardor",((turno+1)%2)+1)<<std::endl;
                         if (turno == inicio) {
                             //buscar la manera de traducir de sprintf a la fomra nativa de cpp
                             sprintf(log[log_count], "\n\033[1mRonda %d:\033[0m Jugador %d se rinde, Jugador %d gana", ronda, turno+1, ((turno+1)%2)+1);
@@ -299,7 +299,7 @@ int jugar(class jugador jugadores[],int n,class configuracion config){
                         break;
                     default:
                         std::system("clear");
-                        std::cout<<"opción no valida\n";
+                        std::cout<<"opción no valida"<<std::endl;
                         stop_system();
                         break;
                 }             
@@ -309,12 +309,12 @@ int jugar(class jugador jugadores[],int n,class configuracion config){
             break;
         case '5':{
             std::system("clear");
-            for(int i=0;i<log_count;i++) std::cout<<"%s\n",log[i];
+            for(int i=0;i<log_count;i++) std::cout<<log[i]<<std::endl;
             stop_system();
             break;}
         default:{
             std::system("clear");
-            std::cout<<"opción no valida\n";
+            std::cout<<"opción no valida"<<std::endl;
             stop_system();
             break;}
         }
@@ -325,7 +325,7 @@ int jugar(class jugador jugadores[],int n,class configuracion config){
             sprintf(log[log_count], "\n\033[1mRonda %d:\033[0m Jugador %d gana por derrota del oponente", ronda, ((i+1)%2)+1);
             log_count++;
             std::system("clear");
-            std::cout<<"jugador %d ha ganado..\n",(((i+1)%2)+1);
+            std::cout<<std::format("jugador {} ha ganado..",(((i+1)%2)+1))<<std::endl;
             stop_system();
             return 1;
         }
@@ -333,8 +333,8 @@ int jugar(class jugador jugadores[],int n,class configuracion config){
     
 
 
-    //deja while 1 ya que en todas las condiciones anteriores se retorna asi que nunca es un bucle infinito 
-    }while(1);
+
+    }while(true);
     if(muerte_sub_activa){
          //buscar la manera de traducir de sprintf a la fomra nativa de cpp
     sprintf(log[log_count], "\n\033[1mRonda %d:\033[0m Muerte súbita activada", ronda);

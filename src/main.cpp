@@ -1,8 +1,7 @@
 #include "funciones.hpp"
 int main(void){
     bool ejecucion = true;
-    char opcion;
-    int n = 0;
+
     
     jugador jugadores[2];
     
@@ -20,10 +19,13 @@ int main(void){
         config.rond_mod=5;
         config.golpe_critico=1.5;
         config.acierto=80;
-    std::system("clear");
-    std::cout<<"Selecciona una opción\n1.Jugar\t\t2.Configuración\n3.Reglas\t4.Salir\n";
-    std::cin>>opcion;
+
     do{
+        char opcion;
+        int n = 0;
+        std::system("clear");
+        std::cout<<"Selecciona una opción\n1.Jugar\t\t2.Configuración\n3.Reglas\t4.Salir"<<std::endl;
+        std::cin>>opcion;
     switch (opcion)
             {
             case '1':
