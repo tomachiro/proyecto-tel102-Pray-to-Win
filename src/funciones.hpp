@@ -39,6 +39,7 @@ class jugador{
 private:
     int tipo_dado;
     //vida maxima
+    double vida_t;
     double vida;
     //ataque base
     int atq_b;
@@ -46,10 +47,10 @@ private:
     //vida que se mostrara en consola
     std::string vida_c;
 public:
-    jugador() : tipo_dado(6), vida(100), atq_b(10), turno(0) {
+    jugador() : tipo_dado(6),vida_t(100), vida(100), atq_b(10), turno(0) {
         vida_c = "[----------]"; // la barra vacia por defecto
     }
-    jugador(int t) : tipo_dado(6), vida(100), atq_b(10), turno(t) {
+    jugador(int t) : tipo_dado(6),vida_t(100), vida(100), atq_b(10), turno(t) {
         vida_c = "[----------]"; //el constructor con el turno especifico
     }
 
@@ -57,6 +58,7 @@ public:
 
     int ObtenerTipoDado() { return tipo_dado; }
     double ObtenerVida() { return vida; }
+    double ObtenerVida_t() { return vida_t; }
     int ObtenerAtqB() { return atq_b; }
     int ObtenerTurno() { return turno; }
     const std::string ObtenerVidaC() { return vida_c; }
@@ -64,6 +66,7 @@ public:
     // Modificar los valores (escritura)
     void ModificarTipoDado(int v) { tipo_dado = v; }
     void ModificarVida(double v) { vida = v; }
+    void ModificarVida_t(double v) { vida_t = v; }
     void ModificarAtqB(int v) { atq_b = v; }
     void ModificarTurno(int v) { turno = v; }
     void ModificarVidaC(const std::string v) { vida_c = v; }
@@ -75,19 +78,31 @@ public:
     }
 };
 
+class tanque: public jugador{
+    public:
+    tanque(int t):jugador(t){
+        ModificarVida(150);
+        ModificarVida_t(150);
+        ModificarTipoDado(2);
+        }
+    
+};
+
+void seleccion_personaje(jugador* jugadores[]);
+
 void reglas(void);
 int muerte_sub(int n,class configuracion[]);
 
-void mostrar_vida(class jugador[]);
-int tirar_dado(class jugador[],int n);
-int ataque(class jugador[],int n,int dado,class configuracion);
-int cura(class jugador[],int n,int dado,class configuracion);
+void mostrar_vida(jugador* jugadores[]);
+int tirar_dado(jugador* jugadores[],int n);
+int ataque(jugador* jugadores[],int n,int dado,class configuracion);
+int cura(jugador* jugadores[],int n,int dado,class configuracion);
 int golpe_crit(class configuracion);
 int acertar_golpe(class configuracion);
-void mejora_d(class jugador[],int n);
+void mejora_d(jugador* jugadores[],int n);
 
 
-int jugar(class jugador[],int n,class configuracion);
+int jugar(jugador* jugadores[],int n,class configuracion);
 void configuraciones(class configuracion);
 
 

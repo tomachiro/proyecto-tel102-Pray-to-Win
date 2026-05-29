@@ -3,12 +3,10 @@ int main(void){
     bool ejecucion = true;
 
     
-    jugador jugadores[2];
+    jugador* jugadores[2];
     //lo que a;adi
-    jugadores[0] = jugador(0);
-    jugadores[1] = jugador(1);
-    
 
+    
     
     configuracion config; 
 

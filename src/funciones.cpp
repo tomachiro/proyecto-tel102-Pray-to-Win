@@ -26,33 +26,34 @@ int muerte_sub(int n,class configuracion config){
     }
 
 }
-void mostrar_vida(class jugador jugadores[]){
+void mostrar_vida(jugador* jugadores[]){
     for(int x=0;x!=2;x++){
         //la vida visual se inicia en 0 para ir aumentando en cada iteracion 
-        jugadores[x].ModificarVidaC("[----------]");
+        jugadores[x]->ModificarVidaC("[----------]");
         //variable hecha para facilitar la lectura en un futuro y no tener que trabajar directamente con la vida del jugador
-        int vida = jugadores[x].ObtenerVida();
+        double vida_t = jugadores[x]->ObtenerVida_t(); 
+        double vida = jugadores[x]->ObtenerVida();
         //vida_f es la vida faltante para saber cuantas x (vida en enteros de 10) tiene que colocar
-        int vida_f= vida/10;
+        int vida_f= (vida/vida_t)*10;
         for(int i=0;i!=vida_f;i+=1){
-            jugadores[x].Modificar_Vida_c_pos(i+1,'x');
+            jugadores[x]->Modificar_Vida_c_pos(i+1,'x');
 
         }
     }   
-    std::cout<<std::format("\t{}\t\t\t{}",jugadores[0].ObtenerVidaC(),jugadores[1].ObtenerVidaC())<<std::endl;
+    std::cout<<std::format("\t{}\t\t\t{}",jugadores[0]->ObtenerVidaC(),jugadores[1]->ObtenerVidaC())<<std::endl;
     return;
 }
-int cura(class jugador jugadores[],int n,int dado,class configuracion config){
+int cura(jugador* jugadores[],int n,int dado,class configuracion config){
     if( config.ObtenerEstadoMuerteSub()){
         std::cout<<"Estas en muerte subita. no te puedes curar"<<std::endl;
     }else{
         int cur=0;
-        cur =((100-jugadores[n].ObtenerVida())/14)*dado; 
-        if(jugadores[n].ObtenerVida()>=100){
+        cur =((100-jugadores[n]->ObtenerVida())/14)*dado; 
+        if(jugadores[n]->ObtenerVida()>=100){
             std::cout<<"ya tienes vida suficiente" <<std::endl; 
         }else if (cur>0)
         {
-            jugadores[n].ModificarVida(jugadores[n].ObtenerVida()+cur);
+            jugadores[n]->ModificarVida(jugadores[n]->ObtenerVida()+cur);
             std::cout<<std::format("te curaste: {} puntos de vida",(cur))<<std::endl;
             return 1;
         }
@@ -71,16 +72,16 @@ void reglas(void){
    return; 
 }
 
-int tirar_dado(class jugador jugadores[],int n){
+int tirar_dado(jugador* jugadores[],int n){
     int num;
-    num = (rand()%jugadores[n].ObtenerTipoDado() )+1;
+    num = (rand()%jugadores[n]->ObtenerTipoDado() )+1;
     return num;
 }
-void mejora_d(class jugador jugadores[],int n){
+void mejora_d(jugador* jugadores[],int n){
     int mejora=0;
     mejora=tirar_dado(jugadores,n);
-    if(mejora==jugadores[n].ObtenerTipoDado()){
-        jugadores[n].ModificarTipoDado(jugadores[n].ObtenerTipoDado()+2);
+    if(mejora==jugadores[n]->ObtenerTipoDado()){
+        jugadores[n]->ModificarTipoDado(jugadores[n]->ObtenerTipoDado()+2);
         std::cout<<"tu dado ha sido mejorado"<<std::endl;
     }else{
         std::cout<<"no ha sido mejorado tu dado"<<std::endl;
@@ -104,19 +105,19 @@ int acertar_golpe(class configuracion config){
     }
     return 0; 
 }
-int ataque(class jugador jugadores[],int n,int dado,class configuracion config){
+int ataque(jugador* jugadores[],int n,int dado,class configuracion config){
     int dmg=0;
     int acertado = acertar_golpe(config);
     if (acertado == 0) {
         return 0; // Golpe fallido, no causa daño
     }
     int critico = golpe_crit(config);
-    dmg =(jugadores[n].ObtenerAtqB()/2)*dado;
+    dmg =(jugadores[n]->ObtenerAtqB()/2)*dado;
     if (critico == 1 ){
         // se podria coloar un mensaje de golpe critico
         dmg=dmg*config.ObtenerGolpeCritico();
     }
-    jugadores[(n+1)%2].ModificarVida(jugadores[(n+1)%2].ObtenerVida()-dmg);
+    jugadores[(n+1)%2]->ModificarVida(jugadores[(n+1)%2]->ObtenerVida()-dmg);
     return dmg;
 }
 
@@ -168,20 +169,44 @@ void configuraciones(class configuracion config){
         }
     }
 }
+void seleccion_personaje(jugador* jugadores[]){
+    for (int i=0;i!=2;i++){
+        char opcion;
+        std::system("clear");
+        std::cout<<std::format("jugador {} selecciona un personaje\n1.tanque\t\t\t\t\t\t2.normal\ntene 50 más de vida pero tiene una moneda\ttiene los atributos por defecto",i+1)<<std::endl;
+        std::cin>>opcion;
+        switch (opcion)
+        {
+        case '1':
+            std::system("clear");
+            std::cout<<"se selecciono tanque"<<std::endl;
+            stop_system();
+            jugadores[i] = new tanque(i);
+            break;
+        case '2':
+            std::system("clear");
+            std::cout<<"se selecciono normal"<<std::endl;
+            stop_system();
+            jugadores[i] = new jugador(i);
+            break;
+        default:
+            std::cout<<"opcion no valida";
+            stop_system();
+            break;
+        }
+    }
+}
 
 
-
-int jugar(class jugador jugadores[],int n,class configuracion config){
+int jugar(jugador* jugadores[],int n,class configuracion config){
     //aqui se define la variable para cuando se implemente la configuracion decidir que jugador empieza
+    seleccion_personaje(jugadores);
     int ronda=1;
     int turno = n;
     int inicio = n;
     char log[100][200];
     int log_count = 0;
     int muerte_sub_activa =0;
-    //aqui reinicia los valores base de los jugadores por si se vuelve a inciar e juego sin terminar el codigo
-    jugadores[0] = jugador(0);
-    jugadores[1] = jugador(1);
     
     
 
@@ -194,8 +219,8 @@ int jugar(class jugador jugadores[],int n,class configuracion config){
         int muerte_sub_activa = muerte_sub(ronda,config);
         std::system("clear");
         mostrar_vida(jugadores);
-        std::cout<<std::format("vida jugador 1:{}\t vida jugador 2:{}",(jugadores[0].ObtenerVida()),(jugadores[1].ObtenerVida()))<<std::endl;
-        std::cout<<std::format("Dado={}\t\t\t\t\tdado={}",jugadores[0].ObtenerTipoDado(),jugadores[1].ObtenerTipoDado())<<std::endl;
+        std::cout<<std::format("vida jugador 1:{}\t vida jugador 2:{}",(jugadores[0]->ObtenerVida()),(jugadores[1]->ObtenerVida()))<<std::endl;
+        std::cout<<std::format("Dado={}\t\t\t\t\tdado={}",jugadores[0]->ObtenerTipoDado(),jugadores[1]->ObtenerTipoDado())<<std::endl;
         std::cout<<std::format("turno del jugador {}, elije una opcion.",turno+1)<<std::endl;
         std::cout<<"1.atacar\t2.curar\t\t3.mejorar\t4.rendirse\t5.ver log"<<std::endl;
         std::cin>>eleccion;
@@ -287,6 +312,8 @@ int jugar(class jugador jugadores[],int n,class configuracion config){
                             strcat(log[log_count-1], buffer);
                         }
                         stop_system();
+                        delete jugadores[1];
+                        delete jugadores[0];
                         return 1;
                         break;
                     case '2':
@@ -315,13 +342,15 @@ int jugar(class jugador jugadores[],int n,class configuracion config){
         }
         
        for(int i=0;i!=2;i++){
-        if(jugadores[i].ObtenerVida()<=0){
+        if(jugadores[i]->ObtenerVida()<=0){
              //buscar la manera de traducir de sprintf a la fomra nativa de cpp
             sprintf(log[log_count], "\n\033[1mRonda %d:\033[0m Jugador %d gana por derrota del oponente", ronda, ((i+1)%2)+1);
             log_count++;
             std::system("clear");
             std::cout<<std::format("jugador {} ha ganado..",(((i+1)%2)+1))<<std::endl;
             stop_system();
+            delete jugadores[1];
+            delete jugadores[0];
             return 1;
         }
        }
