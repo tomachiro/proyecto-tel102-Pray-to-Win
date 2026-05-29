@@ -48,8 +48,8 @@ int cura(jugador* jugadores[],int n,int dado,class configuracion config){
         std::cout<<"Estas en muerte subita. no te puedes curar"<<std::endl;
     }else{
         int cur=0;
-        cur =((100-jugadores[n]->ObtenerVida())/14)*dado; 
-        if(jugadores[n]->ObtenerVida()>=100){
+        cur =((jugadores[n]->ObtenerVida_t()-jugadores[n]->ObtenerVida())/14)*dado; 
+        if(jugadores[n]->ObtenerVida()>=jugadores[n]->ObtenerVida_t()){
             std::cout<<"ya tienes vida suficiente" <<std::endl; 
         }else if (cur>0)
         {
@@ -174,6 +174,7 @@ void seleccion_personaje(jugador* jugadores[]){
         char opcion;
         std::system("clear");
         std::cout<<std::format("jugador {} selecciona un personaje\n1.tanque\t\t\t\t\t\t2.normal\ntene 50 más de vida pero tiene una moneda\ttiene los atributos por defecto",i+1)<<std::endl;
+        std::cout<<"3.suertudo -> tiene 50 de vida pero su dado es de 10"<<std::endl;
         std::cin>>opcion;
         switch (opcion)
         {
@@ -188,6 +189,12 @@ void seleccion_personaje(jugador* jugadores[]){
             std::cout<<"se selecciono normal"<<std::endl;
             stop_system();
             jugadores[i] = new jugador(i);
+            break;
+        case '3':
+            std::system("clear");
+            std::cout<<"se selecciono suertudo"<<std::endl;
+            stop_system();
+            jugadores[i] = new suertudo(i);
             break;
         default:
             std::cout<<"opcion no valida";
