@@ -8,17 +8,16 @@ void clean_buffer(){
 
 void stop_system(){
     clean_buffer();
-    printf("Presiona enter para continuar...");
+    std::cout<<"Presiona enter para continuar...";
     getchar();
 } /* This will wait for the user to press Enter, similar to system("pause") */
 
 
-
 int muerte_sub(int n,class configuracion config){
-    if (n == config.rond_muerte_sub){
+    if (n == config.ObtenerRondMuerteSub()){
         std::system("clear");
         std::cout << std::format("Es la ronda {}. La muerte súbita empieza", n) << std::endl;
-        config.modo_muerte_sub=1;
+        config.ModificarEstadoMuerteSub(true);
         stop_system();
         //retorna 1 para expresar si la muerte subita esta activa
         return 1;
@@ -30,30 +29,30 @@ int muerte_sub(int n,class configuracion config){
 void mostrar_vida(class jugador jugadores[]){
     for(int x=0;x!=2;x++){
         //la vida visual se inicia en 0 para ir aumentando en cada iteracion 
-        std::strcpy(jugadores[x].vida_c, "[----------]");
+        jugadores[x].ModificarVidaC("[----------]");
         //variable hecha para facilitar la lectura en un futuro y no tener que trabajar directamente con la vida del jugador
-        int vida = jugadores[x].vida;
+        int vida = jugadores[x].ObtenerVida();
         //vida_f es la vida faltante para saber cuantas x (vida en enteros de 10) tiene que colocar
         int vida_f= vida/10;
         for(int i=0;i!=vida_f;i+=1){
-            jugadores[x].vida_c[i+1] = 'x';
+            jugadores[x].Modificar_Vida_c_pos(i+1,'x');
 
         }
     }   
-    std::cout<<std::format("\t{}\t\t\t{}",jugadores[0].vida_c,jugadores[1].vida_c)<<std::endl;
+    std::cout<<std::format("\t{}\t\t\t{}",jugadores[0].ObtenerVidaC(),jugadores[1].ObtenerVidaC())<<std::endl;
     return;
 }
 int cura(class jugador jugadores[],int n,int dado,class configuracion config){
-    if( config.modo_muerte_sub==1){
+    if( config.ObtenerEstadoMuerteSub()){
         std::cout<<"Estas en muerte subita. no te puedes curar"<<std::endl;
     }else{
         int cur=0;
-        cur =((100-jugadores[n].vida)/14)*dado; 
-        if(jugadores[n].vida>=100){
+        cur =((100-jugadores[n].ObtenerVida())/14)*dado; 
+        if(jugadores[n].ObtenerVida()>=100){
             std::cout<<"ya tienes vida suficiente" <<std::endl; 
         }else if (cur>0)
         {
-            jugadores[n].vida=jugadores[n].vida+cur;
+            jugadores[n].ModificarVida(jugadores[n].ObtenerVida()+cur);
             std::cout<<std::format("te curaste: {} puntos de vida",(cur))<<std::endl;
             return 1;
         }
@@ -74,14 +73,14 @@ void reglas(void){
 
 int tirar_dado(class jugador jugadores[],int n){
     int num;
-    num = (rand()%jugadores[n].tipo_dado )+1;
+    num = (rand()%jugadores[n].ObtenerTipoDado() )+1;
     return num;
 }
 void mejora_d(class jugador jugadores[],int n){
     int mejora=0;
     mejora=tirar_dado(jugadores,n);
-    if(mejora==jugadores[n].tipo_dado){
-        jugadores[n].tipo_dado +=2;
+    if(mejora==jugadores[n].ObtenerTipoDado()){
+        jugadores[n].ModificarTipoDado(jugadores[n].ObtenerTipoDado()+2);
         std::cout<<"tu dado ha sido mejorado"<<std::endl;
     }else{
         std::cout<<"no ha sido mejorado tu dado"<<std::endl;
@@ -89,10 +88,10 @@ void mejora_d(class jugador jugadores[],int n){
     return;
 }
 
-// arreglar que no se esta usando la class de config
+
 int golpe_crit(class configuracion config){
     int probabilidad = (rand() % 100) + 1;
-    if (probabilidad <= 20) {
+    if (probabilidad <= config.ObtenerGolpeCritico()) {
         return 1; // Golpe Critico
     }
     return 0; // No es Golpe Critico
@@ -100,7 +99,7 @@ int golpe_crit(class configuracion config){
 
 int acertar_golpe(class configuracion config){
     int probabilidad = (rand() % 100) + 1;
-    if (probabilidad <= config.acierto) {
+    if (probabilidad <= config.ObtenerGolpeAcierto()) {
         return 1; // Golpe Acertado 80% en base
     }
     return 0; 
@@ -112,12 +111,12 @@ int ataque(class jugador jugadores[],int n,int dado,class configuracion config){
         return 0; // Golpe fallido, no causa daño
     }
     int critico = golpe_crit(config);
-    dmg =(jugadores[n].atq_b/2)*dado;
+    dmg =(jugadores[n].ObtenerAtqB()/2)*dado;
     if (critico == 1 ){
         // se podria coloar un mensaje de golpe critico
-        dmg=dmg*config.golpe_critico;
+        dmg=dmg*config.ObtenerGolpeCritico();
     }
-    jugadores[(n+1)%2].vida-=dmg;
+    jugadores[(n+1)%2].ModificarVida(jugadores[(n+1)%2].ObtenerVida()-dmg);
     return dmg;
 }
 
@@ -128,35 +127,35 @@ void configuraciones(class configuracion config){
     while(1){    
         std::system("clear");
         std::cout<<"elige lo que quieres modificar\n";
-        std::cout<<std::format("1.ronda de muerte subita={}\n2.probabilidad de critico={}\n3.probabilidad de acierto={}\n4.Salir",config.rond_muerte_sub,config.golpe_critico,config.acierto)<<std::endl;
+        std::cout<<std::format("1.ronda de muerte subita={}\n2.probabilidad de critico={}\n3.probabilidad de acierto={}\n4.Salir",config.ObtenerRondMuerteSub(),config.ObtenerGolpeCritico(),config.ObtenerGolpeAcierto())<<std::endl;
         std::cin>>eleccion;
         switch (eleccion)
         {
         case '1':
             std::system("clear");
-            std::cout<<std::format("cambia el valor de ronda de muerte subita:\nactual={}",config.rond_muerte_sub)<<std::endl;
+            std::cout<<std::format("cambia el valor de ronda de muerte subita:\nactual={}",config.ObtenerRondMuerteSub())<<std::endl;
             std::cin>>cambio;
-            config.rond_muerte_sub=cambio;
+            config.ModificarRondMuerteSub(cambio);
             std::system("clear");
-            std::cout<<std::format("se actualizo el valor a:{}",config.rond_muerte_sub)<<std::endl;
+            std::cout<<std::format("se actualizo el valor a:{}",config.ObtenerRondMuerteSub())<<std::endl;
             stop_system();
             break;
         case '2':
             std::system("clear");
-            std::cout<<std::format("cambia el valor de golpe critico:\nactual={}",config.golpe_critico)<<std::endl;
+            std::cout<<std::format("cambia el valor de golpe critico:\nactual={}",config.ObtenerGolpeCritico())<<std::endl;
             std::cin>>cambio_f;
-            config.golpe_critico=cambio_f;
+            config.ModificarGolpeCritico(cambio_f);
             std::system("clear");
-            std::cout<<std::format("se actualizo el valor a:",config.golpe_critico)<<std::endl;
+            std::cout<<std::format("se actualizo el valor a:",config.ObtenerGolpeCritico())<<std::endl;
             stop_system();
             break;
         case '3':
             std::system("clear");
-            std::cout<<std::format("cambia el valor de acierto:\nactual={}",config.acierto)<<std::endl;
+            std::cout<<std::format("cambia el valor de acierto:\nactual={}",config.ObtenerGolpeAcierto())<<std::endl;
             std::cin>>cambio;
-            config.acierto=cambio;
+            config.ModificarGolpeAcierto(cambio);
             std::system("clear");
-            std::cout<<std::format("se actualizo el valor a:{}",config.acierto)<<std::endl;
+            std::cout<<std::format("se actualizo el valor a:{}",config.ObtenerGolpeAcierto())<<std::endl;
             stop_system();
             break;
         case '4':
@@ -180,14 +179,10 @@ int jugar(class jugador jugadores[],int n,class configuracion config){
     char log[100][200];
     int log_count = 0;
     int muerte_sub_activa =0;
-    //aqui el for funciona para cambiar entre jugador 1 y 2
-    for(int i=0;i!=2;i++){
     //aqui reinicia los valores base de los jugadores por si se vuelve a inciar e juego sin terminar el codigo
-    jugadores[i].tipo_dado = 6;
-    jugadores[i].vida = 100;
-    jugadores[i].atq_b = 10;
-    std::strcpy(jugadores[i].vida_c, "[----------]");  
-    }
+    jugadores[0] = jugador(0);
+    jugadores[1] = jugador(1);
+    
     
 
     do{
@@ -199,8 +194,8 @@ int jugar(class jugador jugadores[],int n,class configuracion config){
         int muerte_sub_activa = muerte_sub(ronda,config);
         std::system("clear");
         mostrar_vida(jugadores);
-        std::cout<<std::format("vida jugador 1:{}\t vida jugador 2:{}",(jugadores[0].vida),(jugadores[1].vida))<<std::endl;
-        std::cout<<std::format("Dado={}\t\t\t\t\tdado={}",jugadores[0].tipo_dado,jugadores[1].tipo_dado)<<std::endl;
+        std::cout<<std::format("vida jugador 1:{}\t vida jugador 2:{}",(jugadores[0].ObtenerVida()),(jugadores[1].ObtenerVida()))<<std::endl;
+        std::cout<<std::format("Dado={}\t\t\t\t\tdado={}",jugadores[0].ObtenerTipoDado(),jugadores[1].ObtenerTipoDado())<<std::endl;
         std::cout<<std::format("turno del jugador {}, elije una opcion.",turno+1)<<std::endl;
         std::cout<<"1.atacar\t2.curar\t\t3.mejorar\t4.rendirse\t5.ver log"<<std::endl;
         std::cin>>eleccion;
@@ -320,7 +315,7 @@ int jugar(class jugador jugadores[],int n,class configuracion config){
         }
         
        for(int i=0;i!=2;i++){
-        if(jugadores[i].vida<=0){
+        if(jugadores[i].ObtenerVida()<=0){
              //buscar la manera de traducir de sprintf a la fomra nativa de cpp
             sprintf(log[log_count], "\n\033[1mRonda %d:\033[0m Jugador %d gana por derrota del oponente", ronda, ((i+1)%2)+1);
             log_count++;
@@ -340,5 +335,6 @@ int jugar(class jugador jugadores[],int n,class configuracion config){
     sprintf(log[log_count], "\n\033[1mRonda %d:\033[0m Muerte súbita activada", ronda);
     log_count++;}
     return 1;
+
 
 }
