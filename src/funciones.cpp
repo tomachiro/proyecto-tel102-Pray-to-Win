@@ -207,6 +207,33 @@ void seleccion_personaje(jugador* jugadores[]){
         }
     }
 }
+void seleccion_personaje(jugador* jugadores[]){
+    for (int i=0;i!=2;i++){
+        char opcion;
+        std::system("clear");
+        std::cout<<std::format("jugador {} selecciona un personaje\n1.tanque\t\t\t\t\t\t2.normal\ntene 50 más de vida pero tiene una moneda\ttiene los atributos por defecto",i+1)<<std::endl;
+        std::cin>>opcion;
+        switch (opcion)
+        {
+        case '1':
+            std::system("clear");
+            std::cout<<"se selecciono tanque"<<std::endl;
+            stop_system();
+            jugadores[i] = new tanque(i);
+            break;
+        case '2':
+            std::system("clear");
+            std::cout<<"se selecciono normal"<<std::endl;
+            stop_system();
+            jugadores[i] = new jugador(i);
+            break;
+        default:
+            std::cout<<"opcion no valida";
+            stop_system();
+            break;
+        }
+    }
+}
 
 int jugar(jugador* jugadores[],int n,class configuracion config){
     //aqui se define la variable para cuando se implemente la configuracion decidir que jugador empieza
