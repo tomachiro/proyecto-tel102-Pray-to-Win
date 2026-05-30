@@ -120,9 +120,8 @@ Durante el juego, el jugador puede consultar el historial de acciones de la part
   
   | Tarea | Estado |
   | --- | --- |
-  | Agregar más tipos de personajes (Mago, Arquero) | ⬜ Pendiente |
-  | Implementar inventario de objetos | ⬜ Pendiente |
-  | Mejorar interfaz visual en consola | ⬜ Pendiente |
+  | Agregar más tipos de personajes  | ⬜ Pendiente |
+  | Implementar interfaz grafica con qt | ⬜ Pendiente |
   
   ## Compilación y Ejecución
   
@@ -132,7 +131,7 @@ Durante el juego, el jugador puede consultar el historial de acciones de la part
   
   ### Compilar
   ```bash
-  g++ src/main.cpp src/funciones.cpp -o juego
+  g++ -std=c++23 src/main.cpp src/funciones.cpp -o juego
   ```
   
   ### Ejecutar
@@ -151,7 +150,7 @@ Durante el juego, el jugador puede consultar el historial de acciones de la part
 - Se realizaron pequeñas modificaciones para usar `std::string` en lugar de arreglos de caracteres de C, adaptando el código al estilo C++.
 - El sistema de log usa `sprintf` y `strcat` (funciones de C) ya que aún no se encontró una forma nativa en C++ que cumpla la misma función de manera simple. Se identificó como mejora pendiente.
   
- ## Ejemplos de Ejecución
+ ## Ejemplos explicativos de Ejecución
 
 **Caso: ataque normal exitoso**
 
