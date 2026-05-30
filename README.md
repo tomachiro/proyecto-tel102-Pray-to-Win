@@ -145,7 +145,7 @@ Durante el juego, el jugador puede consultar el historial de acciones de la part
   
   ## Dificultades Encontradas
   
-- La migración se realizó como traducción directa del código C original, lo que permitió conservar gran parte de las funciones sin reescribirlas desde cero.
+- La migración se realizó como traducción directa del código C original, lo que permitió conservar gran parte de la logica sin reescribirlas desde cero.
 - Al encapsular los atributos de `Jugador` como privados, la barra de vida en consola dejó de poder modificarse carácter por carácter directamente, lo que requirió crear el método `Modificar_Vida_c_pos()` como solución.
 - Se realizaron pequeñas modificaciones para usar `std::string` en lugar de arreglos de caracteres de C, adaptando el código al estilo C++.
 - El sistema de log usa `sprintf` y `strcat` (funciones de C) ya que aún no se encontró una forma nativa en C++ que cumpla la misma función de manera simple. Se identificó como mejora pendiente.
