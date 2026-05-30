@@ -10,11 +10,11 @@ int main(void){
     
     configuracion config; 
 
-    do{
+   do{
         char opcion;
         int n = 0;
         std::system("clear");
-        std::cout<<"Selecciona una opción\n1.Jugar\t\t2.Configuración\n3.Reglas\t4.Salir"<<std::endl;
+        std::cout<<"\033[37mSelecciona una opción\033[0m\n\033[36m1.Jugar\t\t2.Configuración\n3.Reglas\t4.Salir\033[0m"<<std::endl;
         std::cin>>opcion;
 
     switch (opcion)
@@ -24,7 +24,7 @@ int main(void){
                 break;
             case '2':
                 std::system("clear");
-                std::cout<<"Esta es la configuración del sistema\n";
+                std::cout<<"\033[36mEsta es la configuración del sistema\033[0m\n";
                 configuraciones(config);
                 stop_system();
                 break;
@@ -33,7 +33,7 @@ int main(void){
                 break;
             case '4':
                 std::system("clear");
-                std::cout<<"saliendo....\n";
+                std::cout<<"\033[31msaliendo....\033[0m\n";
                 stop_system();
                 std::system("clear");
                 return 1;
@@ -41,7 +41,7 @@ int main(void){
             
             default:
                 std::system("clear");
-                std::cout<<"opción no valida\n";
+                std::cout<<"\033[33mopción no valida\033[0m\n";
                 stop_system();
                 break;
             } 

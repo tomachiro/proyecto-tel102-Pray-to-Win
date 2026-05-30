@@ -87,6 +87,14 @@ class tanque: public jugador{
         }
     
 };
+class suertudo:public jugador{
+    public:
+    suertudo(int t):jugador(t){
+        ModificarVida(50);
+        ModificarVida_t(50);
+        ModificarTipoDado(10);
+    }
+};
 
 void seleccion_personaje(jugador* jugadores[]);
 
