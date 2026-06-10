@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="menu_i">
      <widget class="QPushButton" name="iniciar">
@@ -96,6 +96,47 @@
         <width>131</width>
         <height>51</height>
        </rect>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="personajes">
+     <widget class="QPushButton" name="p_normal">
+      <property name="geometry">
+       <rect>
+        <x>60</x>
+        <y>140</y>
+        <width>94</width>
+        <height>26</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>normal</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="p_tanque">
+      <property name="geometry">
+       <rect>
+        <x>340</x>
+        <y>160</y>
+        <width>94</width>
+        <height>26</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>tanque</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="p_suertudo">
+      <property name="geometry">
+       <rect>
+        <x>590</x>
+        <y>140</y>
+        <width>94</width>
+        <height>26</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>suertudo</string>
       </property>
      </widget>
     </widget>

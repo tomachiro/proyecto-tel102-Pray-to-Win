@@ -40,7 +40,7 @@ void MainWindow::on_ataque_clicked()
 
 void MainWindow::on_iniciar_clicked()
 {
-    ui->pp->setCurrentIndex(1);
+    ui->pp->setCurrentIndex(2);
 
 }
 
@@ -52,4 +52,22 @@ void MainWindow::on_mejorar_clicked()
 
 
 
+
+
+void MainWindow::on_p_normal_clicked()
+{
+    ui->pp->setCurrentIndex(1);
+}
+
+
+void MainWindow::on_p_tanque_clicked()
+{
+    ui->pp->setCurrentIndex(1);
+}
+
+
+void MainWindow::on_p_suertudo_clicked()
+{
+    ui->pp->setCurrentIndex(1);
+}
 

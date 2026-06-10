@@ -25,6 +25,12 @@ private slots:
     void on_mejorar_clicked();
 
 
+    void on_p_normal_clicked();
+
+    void on_p_tanque_clicked();
+
+    void on_p_suertudo_clicked();
+
 private:
     int turno;
     int hp_j1;
