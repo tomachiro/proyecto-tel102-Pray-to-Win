@@ -54,4 +54,12 @@ public:
         }
     }
 };
+class tanque : public jugador {
+public:
+    tanque(int t) : jugador(t) {
+        ModificarVida(150);
+        ModificarVida_t(150);
+        ModificarTipoDado(2);
+    }
+};
 #endif // FUNCIONES_H
