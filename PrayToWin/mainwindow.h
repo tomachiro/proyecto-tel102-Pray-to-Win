@@ -1,7 +1,9 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+
 #include <QMainWindow>
+#include "funciones.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -33,9 +35,9 @@ private slots:
 
 private:
     int turno;
-    int hp_j1;
-    int hp_j2;
     int rond;
+    jugador* j1;
+    jugador* j2;
     Ui::MainWindow *ui;
 };
 #endif // MAINWINDOW_H
