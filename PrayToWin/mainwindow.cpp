@@ -29,11 +29,19 @@ void MainWindow::on_ataque_clicked()
         double dano = (j1->ObtenerAtqB() / 2.0) * (rand() % j1->ObtenerTipoDado() + 1);
         j2->ModificarVida(j2->ObtenerVida() - dano);
         ui->vida_j2->display(j2->ObtenerVida());
+        if (j2->ObtenerVida() <= 0) {
+            ui->resultado->setText("Ganó Jugador " + QString::number(j1->ObtenerTurno()));
+            return;
+        }
         turno = 2;
     } else {
        double dano = (j2->ObtenerAtqB() / 2.0) * (rand() % j2->ObtenerTipoDado() + 1);
         j1->ModificarVida(j1->ObtenerVida() - dano);
         ui->vida_j1->display(j1->ObtenerVida());
+        if (j1->ObtenerVida() <= 0) {
+            ui->resultado->setText("Ganó Jugador " + QString::number(j2->ObtenerTurno()));
+            return;
+        }
         turno = 1;
         rond++;
     }
