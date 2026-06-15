@@ -98,6 +98,19 @@
        </rect>
       </property>
      </widget>
+     <widget class="QLabel" name="resultado">
+      <property name="geometry">
+       <rect>
+        <x>350</x>
+        <y>180</y>
+        <width>141</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>resultado</string>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="personajes">
      <widget class="QPushButton" name="p_normal">
@@ -148,7 +161,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>23</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>
