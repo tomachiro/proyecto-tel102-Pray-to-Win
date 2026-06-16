@@ -111,6 +111,19 @@
        <string>resultado</string>
       </property>
      </widget>
+     <widget class="QPushButton" name="curacion">
+      <property name="geometry">
+       <rect>
+        <x>670</x>
+        <y>290</y>
+        <width>88</width>
+        <height>28</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Curar</string>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="personajes">
      <widget class="QPushButton" name="p_normal">
@@ -161,7 +174,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>21</height>
+     <height>24</height>
     </rect>
    </property>
   </widget>
