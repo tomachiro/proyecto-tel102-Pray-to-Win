@@ -87,3 +87,22 @@ void MainWindow::on_p_suertudo_clicked()
     ui->vida_j2->display(j2->ObtenerVida());
     ui->pp->setCurrentIndex(1);
 }
+
+void MainWindow::on_curacion_clicked()
+{
+    if (turno == 1) {
+        double nuevaVida = j1->ObtenerVida() + 20;
+        if (nuevaVida > j1->ObtenerVida_t()) nuevaVida = j1->ObtenerVida_t();
+        j1->ModificarVida(nuevaVida);
+        ui->vida_j1->display(j1->ObtenerVida());
+        turno = 2;
+    } else {
+        double nuevaVida = j2->ObtenerVida() + 20;
+        if (nuevaVida > j2->ObtenerVida_t()) nuevaVida = j2->ObtenerVida_t();
+        j2->ModificarVida(nuevaVida);
+        ui->vida_j2->display(j2->ObtenerVida());
+        turno = 1;
+        rond++;
+    }
+    ui->ronda->display(rond);
+}
