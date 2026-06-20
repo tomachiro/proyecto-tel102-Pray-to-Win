@@ -87,7 +87,14 @@ void MainWindow::on_p_suertudo_clicked()
     ui->vida_j2->display(j2->ObtenerVida());
     ui->pp->setCurrentIndex(1);
 }
-
+void MainWindow::on_rendirse_clicked()
+{
+    if (turno == 1) {
+        ui->resultado->setText("Ganó Jugador " + QString::number(j2->ObtenerTurno()));
+    } else {
+        ui->resultado->setText("Ganó Jugador " + QString::number(j1->ObtenerTurno()));
+    }
+}
 void MainWindow::on_curacion_clicked()
 {
     if (turno == 1) {
@@ -106,3 +113,16 @@ void MainWindow::on_curacion_clicked()
     }
     ui->ronda->display(rond);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
