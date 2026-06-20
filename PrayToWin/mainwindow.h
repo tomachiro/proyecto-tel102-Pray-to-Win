@@ -33,7 +33,10 @@ private slots:
 
     void on_p_suertudo_clicked();
 
+    void on_rendirse_clicked();
+
     void on_curacion_clicked();
+
 private:
     int turno;
     int rond;
