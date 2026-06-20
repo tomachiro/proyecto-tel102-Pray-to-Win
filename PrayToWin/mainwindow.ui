@@ -124,6 +124,19 @@
        <string>Rendirse</string>
       </property>
      </widget>
+     <widget class="QPushButton" name="curacion">
+      <property name="geometry">
+       <rect>
+        <x>670</x>
+        <y>290</y>
+        <width>90</width>
+        <height>29</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Curar</string>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="personajes">
      <widget class="QPushButton" name="p_normal">
