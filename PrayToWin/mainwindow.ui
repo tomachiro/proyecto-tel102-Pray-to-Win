@@ -111,17 +111,17 @@
        <string>resultado</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="curacion">
+     <widget class="QPushButton" name="rendirse">
       <property name="geometry">
        <rect>
-        <x>670</x>
-        <y>290</y>
-        <width>88</width>
-        <height>28</height>
+        <x>40</x>
+        <y>230</y>
+        <width>90</width>
+        <height>29</height>
        </rect>
       </property>
       <property name="text">
-       <string>Curar</string>
+       <string>Rendirse</string>
       </property>
      </widget>
     </widget>
@@ -174,7 +174,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>24</height>
+     <height>25</height>
     </rect>
    </property>
   </widget>
