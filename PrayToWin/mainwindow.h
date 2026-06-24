@@ -44,6 +44,20 @@ private slots:
 
     void on_salir_clicked();
 
+    void on_reglas_clicked();
+
+    void on_config_clicked();
+
+    void on_volver_clicked();
+
+    void on_volver_2_clicked();
+
+    void on_rond_muerte_s_textChanged(const QString &arg1);
+
+    void on_multi_crit_textChanged(const QString &arg1);
+
+    void on_prob_acierto_textChanged(const QString &arg1);
+
 private:
     int turno;
     int rond;

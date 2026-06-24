@@ -30,6 +30,7 @@ void MainWindow::on_ataque_clicked()
         double dano = (j1->ObtenerAtqB() / 2.0) * (rand() % j1->ObtenerTipoDado() + 1);
         j2->ModificarVida(j2->ObtenerVida() - dano);
         ui->vida_j2->display(j2->ObtenerVida());
+        ui->barra_j2->setValue(j2->ObtenerVida());
         if (j2->ObtenerVida() <= 0) {
             ui->pp->setCurrentIndex(1);
             ui->resultado->setText("Ganó Jugador " + QString::number(j1->ObtenerTurno()));
@@ -41,6 +42,7 @@ void MainWindow::on_ataque_clicked()
        double dano = (j2->ObtenerAtqB() / 2.0) * (rand() % j2->ObtenerTipoDado() + 1);
         j1->ModificarVida(j1->ObtenerVida() - dano);
         ui->vida_j1->display(j1->ObtenerVida());
+        ui->barra_j1->setValue(j1->ObtenerVida());
         if (j1->ObtenerVida() <= 0) {
             ui->pp->setCurrentIndex(1);
             ui->resultado->setText("Ganó Jugador " + QString::number(j2->ObtenerTurno()));
@@ -147,6 +149,7 @@ void MainWindow::on_curacion_clicked()
         if (nuevaVida > j1->ObtenerVida_t()) nuevaVida = j1->ObtenerVida_t();
         j1->ModificarVida(nuevaVida);
         ui->vida_j1->display(j1->ObtenerVida());
+        ui->barra_j1->setValue(j1->ObtenerVida());
         ui->accion->setText(j1->obtenernombre()+" te curaste " + QString::number(20)+" puntos de vida");
         turno = 2;
     } else {
@@ -154,6 +157,7 @@ void MainWindow::on_curacion_clicked()
         if (nuevaVida > j2->ObtenerVida_t()) nuevaVida = j2->ObtenerVida_t();
         j2->ModificarVida(nuevaVida);
         ui->vida_j2->display(j2->ObtenerVida());
+        ui->barra_j2->setValue(j2->ObtenerVida());
         ui->accion->setText(j2->obtenernombre()+" te curaste " + QString::number(20)+" puntos de vida");
         turno = 1;
         rond++;
@@ -190,6 +194,10 @@ void MainWindow::on_siguiente_clicked()
         ui->dado_1->setText("dado: "+QString::number(j1->ObtenerTipoDado()));
         ui->dado_2->setText("dado: "+QString::number(j2->ObtenerTipoDado()));
         ui->letoca->setText("le toca a "+j1->obtenernombre());
+        ui->barra_j1->setRange(0,j1->ObtenerVida_t());
+        ui->barra_j1->setValue(j1->ObtenerVida());
+        ui->barra_j2->setRange(0,j2->ObtenerVida_t());
+        ui->barra_j2->setValue(j2->ObtenerVida());
         ui->pp->setCurrentIndex(2);
         ui->nombre->clear();
         ui->accion->clear();
@@ -238,5 +246,23 @@ void MainWindow::on_volver_clicked()
 void MainWindow::on_volver_2_clicked()
 {
     ui->pp->setCurrentIndex(0);
+}
+
+
+void MainWindow::on_rond_muerte_s_textChanged(const QString &arg1)
+{
+    config.ModificarRondMuerteSub(arg1.toInt());
+}
+
+
+void MainWindow::on_multi_crit_textChanged(const QString &arg1)
+{
+    config.ModificarGolpeCritico(arg1.toFloat());
+}
+
+
+void MainWindow::on_prob_acierto_textChanged(const QString &arg1)
+{
+    config.ModificarGolpeAcierto(arg1.toInt());
 }
 
