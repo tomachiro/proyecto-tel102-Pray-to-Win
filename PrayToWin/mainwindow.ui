@@ -1,0 +1,539 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QStackedWidget" name="pp">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>20</y>
+      <width>801</width>
+      <height>551</height>
+     </rect>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::LayoutDirection::LeftToRight</enum>
+    </property>
+    <property name="currentIndex">
+     <number>0</number>
+    </property>
+    <widget class="QWidget" name="menu_i">
+     <widget class="QPushButton" name="iniciar">
+      <property name="geometry">
+       <rect>
+        <x>370</x>
+        <y>200</y>
+        <width>94</width>
+        <height>26</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>jugar</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="config">
+      <property name="geometry">
+       <rect>
+        <x>370</x>
+        <y>240</y>
+        <width>94</width>
+        <height>26</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>configuracion</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="reglas">
+      <property name="geometry">
+       <rect>
+        <x>370</x>
+        <y>280</y>
+        <width>94</width>
+        <height>26</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>reglas</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="salir">
+      <property name="geometry">
+       <rect>
+        <x>370</x>
+        <y>320</y>
+        <width>94</width>
+        <height>26</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>salir</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="resultado_page">
+     <widget class="QLabel" name="resultado">
+      <property name="geometry">
+       <rect>
+        <x>310</x>
+        <y>120</y>
+        <width>141</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>resultado</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="reiniciar">
+      <property name="geometry">
+       <rect>
+        <x>360</x>
+        <y>260</y>
+        <width>80</width>
+        <height>26</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>siguiente</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="juego">
+     <widget class="QLCDNumber" name="vida_j2">
+      <property name="geometry">
+       <rect>
+        <x>580</x>
+        <y>100</y>
+        <width>131</width>
+        <height>51</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLCDNumber" name="ronda">
+      <property name="geometry">
+       <rect>
+        <x>380</x>
+        <y>20</y>
+        <width>131</width>
+        <height>51</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLCDNumber" name="vida_j1">
+      <property name="geometry">
+       <rect>
+        <x>150</x>
+        <y>100</y>
+        <width>131</width>
+        <height>51</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLabel" name="accion">
+      <property name="geometry">
+       <rect>
+        <x>230</x>
+        <y>230</y>
+        <width>361</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>resultado</string>
+      </property>
+     </widget>
+     <widget class="QWidget" name="gridLayoutWidget">
+      <property name="geometry">
+       <rect>
+        <x>580</x>
+        <y>370</y>
+        <width>168</width>
+        <height>80</height>
+       </rect>
+      </property>
+      <layout class="QGridLayout" name="gridLayout">
+       <item row="0" column="1">
+        <widget class="QPushButton" name="mejorar">
+         <property name="text">
+          <string>mejorar</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QPushButton" name="ataque">
+         <property name="text">
+          <string>ataque</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QPushButton" name="curacion">
+         <property name="text">
+          <string>Curar</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QPushButton" name="rendirse">
+         <property name="text">
+          <string>Rendirse</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QLabel" name="letoca">
+      <property name="geometry">
+       <rect>
+        <x>40</x>
+        <y>20</y>
+        <width>141</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>le toca a</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="nom_1">
+      <property name="geometry">
+       <rect>
+        <x>150</x>
+        <y>60</y>
+        <width>141</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="nom_2">
+      <property name="geometry">
+       <rect>
+        <x>580</x>
+        <y>60</y>
+        <width>141</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="dado_1">
+      <property name="geometry">
+       <rect>
+        <x>150</x>
+        <y>150</y>
+        <width>141</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="dado_2">
+      <property name="geometry">
+       <rect>
+        <x>580</x>
+        <y>150</y>
+        <width>141</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QProgressBar" name="barra_j1">
+      <property name="geometry">
+       <rect>
+        <x>140</x>
+        <y>210</y>
+        <width>181</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="value">
+       <number>24</number>
+      </property>
+     </widget>
+     <widget class="QProgressBar" name="barra_j2">
+      <property name="geometry">
+       <rect>
+        <x>550</x>
+        <y>210</y>
+        <width>181</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="value">
+       <number>24</number>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="personajes">
+     <property name="maximumSize">
+      <size>
+       <width>801</width>
+       <height>551</height>
+      </size>
+     </property>
+     <widget class="QWidget" name="horizontalLayoutWidget">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>200</y>
+        <width>711</width>
+        <height>91</height>
+       </rect>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <item>
+        <widget class="QPushButton" name="p_normal">
+         <property name="text">
+          <string>normal</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="p_suertudo">
+         <property name="text">
+          <string>suertudo</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="p_tanque">
+         <property name="text">
+          <string>tanque</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QLabel" name="character">
+      <property name="geometry">
+       <rect>
+        <x>330</x>
+        <y>150</y>
+        <width>141</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>elige tu personaje</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="turno">
+      <property name="geometry">
+       <rect>
+        <x>70</x>
+        <y>20</y>
+        <width>141</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string> jugador   </string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="select_name">
+     <widget class="QLabel" name="name">
+      <property name="geometry">
+       <rect>
+        <x>270</x>
+        <y>110</y>
+        <width>141</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>elige tu nombre:</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="nombre">
+      <property name="geometry">
+       <rect>
+        <x>340</x>
+        <y>160</y>
+        <width>113</width>
+        <height>26</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="siguiente">
+      <property name="geometry">
+       <rect>
+        <x>390</x>
+        <y>290</y>
+        <width>80</width>
+        <height>26</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>siguiente</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="reglas_page">
+     <widget class="QLabel" name="label">
+      <property name="geometry">
+       <rect>
+        <x>310</x>
+        <y>40</y>
+        <width>251</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>reglas</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_2">
+      <property name="geometry">
+       <rect>
+        <x>90</x>
+        <y>100</y>
+        <width>611</width>
+        <height>151</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>para cada acción tienes que tirar un dado y referente a este define que tan efectivo
+es la acción. no olvides
+1.ataca para eliminar al contrincante
+2.Cúrate para evitar ser eliminado
+3.Mejora el dado para tener mayores probabilidad de hacer más daño
+4.Reza por no fallar los ataques
+</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="volver">
+      <property name="geometry">
+       <rect>
+        <x>370</x>
+        <y>320</y>
+        <width>94</width>
+        <height>26</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>volver</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="config_page">
+     <widget class="QPushButton" name="volver_2">
+      <property name="geometry">
+       <rect>
+        <x>360</x>
+        <y>370</y>
+        <width>94</width>
+        <height>26</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>volver</string>
+      </property>
+     </widget>
+     <widget class="QWidget" name="gridLayoutWidget_2">
+      <property name="geometry">
+       <rect>
+        <x>180</x>
+        <y>60</y>
+        <width>481</width>
+        <height>80</height>
+       </rect>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_3">
+       <item row="0" column="0">
+        <widget class="QLabel" name="rond_m_s">
+         <property name="text">
+          <string>ronda de muerte subita</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="2">
+        <widget class="QLabel" name="rond_m_s_3">
+         <property name="text">
+          <string>probablidad de acierto</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLabel" name="rond_m_s_2">
+         <property name="text">
+          <string>multiplicador de critico</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLineEdit" name="rond_muerte_s">
+         <property name="text">
+          <string>10</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QLineEdit" name="multi_crit">
+         <property name="text">
+          <string>1.5</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="2">
+        <widget class="QLineEdit" name="prob_acierto">
+         <property name="text">
+          <string>80</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QLabel" name="configuraciones">
+      <property name="geometry">
+       <rect>
+        <x>340</x>
+        <y>-10</y>
+        <width>155</width>
+        <height>46</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>configuraciones</string>
+      </property>
+     </widget>
+    </widget>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>800</width>
+     <height>23</height>
+    </rect>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
