@@ -15,7 +15,7 @@ public:
 
 // Constructor por defecto (valores iniciales del juego)
 configuracion() : rond_muerte_sub(10), modo_muerte_sub(false), rond_mod(5), golpe_critico(1.5f), acierto(80) {}
-//configuracion(int rms,int mms, int rm, float gc, int ac) : rond_muerte_sub(rms), modo_muerte_sub(mms),rond_mod(rm), golpe_critico(gc), acierto (ac){}
+configuracion(int rms,int mms, int rm, float gc, int ac) : rond_muerte_sub(rms), modo_muerte_sub(mms),rond_mod(rm), golpe_critico(gc), acierto (ac){}
  
 // Esto es para  guardar los valores y calcular (el da;o, probabilidad de critico y si acierta o no) 
 
