@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="menu_i">
      <widget class="QPushButton" name="iniciar">
@@ -80,7 +80,7 @@
       </property>
      </widget>
     </widget>
-    <widget class="QWidget" name="ganador">
+    <widget class="QWidget" name="resultado_page">
      <widget class="QLabel" name="resultado">
       <property name="geometry">
        <rect>
@@ -142,9 +142,9 @@
      <widget class="QLabel" name="accion">
       <property name="geometry">
        <rect>
-        <x>350</x>
-        <y>190</y>
-        <width>141</width>
+        <x>230</x>
+        <y>230</y>
+        <width>361</width>
         <height>41</height>
        </rect>
       </property>
@@ -203,6 +203,58 @@
       </property>
       <property name="text">
        <string>le toca a</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="nom_1">
+      <property name="geometry">
+       <rect>
+        <x>150</x>
+        <y>60</y>
+        <width>141</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="nom_2">
+      <property name="geometry">
+       <rect>
+        <x>580</x>
+        <y>60</y>
+        <width>141</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="dado_1">
+      <property name="geometry">
+       <rect>
+        <x>150</x>
+        <y>160</y>
+        <width>141</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="dado_2">
+      <property name="geometry">
+       <rect>
+        <x>590</x>
+        <y>150</y>
+        <width>141</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
       </property>
      </widget>
     </widget>

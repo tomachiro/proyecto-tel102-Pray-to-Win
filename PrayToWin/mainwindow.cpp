@@ -13,6 +13,7 @@ MainWindow::MainWindow(QWidget *parent)
     rond = 1;
     j1 = nullptr;
     j2 = nullptr;
+
 }
 
 MainWindow::~MainWindow()
@@ -60,7 +61,37 @@ void MainWindow::on_iniciar_clicked()
 
 void MainWindow::on_mejorar_clicked()
 {
-    ui->pp->setCurrentIndex(0);
+    ui->ronda->display(rond);
+    int dado=0;
+    if(turno==1){
+        dado=rand() % j1->ObtenerTipoDado() + 1;
+        if (dado==j1->ObtenerTipoDado()){
+            j1->ModificarTipoDado(j1->ObtenerTipoDado()+2);
+            ui->dado_1->setText("dado: "+QString::number(j1->ObtenerTipoDado()));
+            ui->accion->setText(j1->obtenernombre()+" mejoraste el dado ahora es de " + QString::number(j1->ObtenerTipoDado())+" caras");
+            turno+=1;
+        }
+        else{
+            ui->accion->setText(j1->obtenernombre()+" no mejoraste el dado sigue siendo de " + QString::number(j1->ObtenerTipoDado())+" caras");
+            turno+=1;
+        }
+        ui->letoca->setText("le toca a "+j2->obtenernombre());
+    }
+    else if(turno==2){
+        dado=rand() % j2->ObtenerTipoDado() + 1;
+        if (dado==j1->ObtenerTipoDado()){
+            j2->ModificarTipoDado(j2->ObtenerTipoDado()+2);
+            ui->dado_2->setText("dado: "+QString::number(j2->ObtenerTipoDado()));
+            ui->accion->setText(j2->obtenernombre()+" mejoraste el dado ahora es de " + QString::number(j2->ObtenerTipoDado())+" caras");
+            turno=1;
+        }
+        else{
+            ui->accion->setText(j2->obtenernombre()+" no mejoraste el dado sigue siendo de " + QString::number(j2->ObtenerTipoDado())+" caras");
+            turno=1;
+        }
+        ui->letoca->setText("le toca a "+j1->obtenernombre());
+    }
+    rond++;
 }
 
 void MainWindow::on_p_normal_clicked()
@@ -116,12 +147,14 @@ void MainWindow::on_curacion_clicked()
         if (nuevaVida > j1->ObtenerVida_t()) nuevaVida = j1->ObtenerVida_t();
         j1->ModificarVida(nuevaVida);
         ui->vida_j1->display(j1->ObtenerVida());
+        ui->accion->setText(j1->obtenernombre()+" te curaste " + QString::number(20)+" puntos de vida");
         turno = 2;
     } else {
         double nuevaVida = j2->ObtenerVida() + 20;
         if (nuevaVida > j2->ObtenerVida_t()) nuevaVida = j2->ObtenerVida_t();
         j2->ModificarVida(nuevaVida);
         ui->vida_j2->display(j2->ObtenerVida());
+        ui->accion->setText(j2->obtenernombre()+" te curaste " + QString::number(20)+" puntos de vida");
         turno = 1;
         rond++;
     }
@@ -150,11 +183,16 @@ void MainWindow::on_siguiente_clicked()
     }
     else{
         turno=1;
+        ui->nom_1->setText(j1->obtenernombre());
+        ui->nom_2->setText(j2->obtenernombre());
         ui->vida_j1->display(j1->ObtenerVida());
         ui->vida_j2->display(j2->ObtenerVida());
+        ui->dado_1->setText("dado: "+QString::number(j1->ObtenerTipoDado()));
+        ui->dado_2->setText("dado: "+QString::number(j2->ObtenerTipoDado()));
         ui->letoca->setText("le toca a "+j1->obtenernombre());
         ui->pp->setCurrentIndex(2);
         ui->nombre->clear();
+        ui->accion->clear();
     }
 }
 
@@ -166,6 +204,39 @@ void MainWindow::on_reiniciar_clicked()
 {
     delete j1;
     delete j2;
+    ui->pp->setCurrentIndex(0);
+}
+
+
+void MainWindow::on_salir_clicked()
+{
+
+    close();
+
+}
+
+
+void MainWindow::on_reglas_clicked()
+{
+    ui->pp->setCurrentIndex(5);
+
+}
+
+
+void MainWindow::on_config_clicked()
+{
+    ui->pp->setCurrentIndex(6);
+}
+
+
+void MainWindow::on_volver_clicked()
+{
+    ui->pp->setCurrentIndex(0);
+}
+
+
+void MainWindow::on_volver_2_clicked()
+{
     ui->pp->setCurrentIndex(0);
 }
 

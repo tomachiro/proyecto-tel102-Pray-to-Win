@@ -26,7 +26,6 @@ private slots:
 
     void on_mejorar_clicked();
 
-
     void on_p_normal_clicked();
 
     void on_p_tanque_clicked();
@@ -41,14 +40,16 @@ private slots:
 
     void on_siguiente_clicked();
 
-
     void on_reiniciar_clicked();
+
+    void on_salir_clicked();
 
 private:
     int turno;
     int rond;
     jugador* j1;
     jugador* j2;
+    configuracion config;
     Ui::MainWindow *ui;
 };
 #endif // MAINWINDOW_H
