@@ -37,6 +37,13 @@ private slots:
 
     void on_curacion_clicked();
 
+    void on_nombre_textEdited(const QString &arg1);
+
+    void on_siguiente_clicked();
+
+
+    void on_reiniciar_clicked();
+
 private:
     int turno;
     int rond;
