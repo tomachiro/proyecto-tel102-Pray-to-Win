@@ -3,6 +3,7 @@
 #include "QLCDNumber"
 #include "QPushButton"
 #include "QStackedWidget"
+#include "ruletadado.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -15,6 +16,18 @@ MainWindow::MainWindow(QWidget *parent)
     dado = 0;
     jugadores[0] = nullptr;   // inicializar punteros
     jugadores[1] = nullptr;
+
+
+    turnoTimer = new QTimer(this);
+    turnoTimer->setInterval(60000); // 1 minuto
+    connect(turnoTimer, &QTimer::timeout, this, &MainWindow::pasarTurnoPorTiempo);
+    turnoTimer->start();
+    tiempoRestante = 60;
+    timerVisual = new QTimer(this);
+    timerVisual->setInterval(1000); // cada segundo
+    connect(timerVisual, &QTimer::timeout, this, &MainWindow::actualizarTimerVisual);
+    timerVisual->start();
+
 }
 MainWindow::~MainWindow()
 {
@@ -22,6 +35,30 @@ MainWindow::~MainWindow()
     if (jugadores[1]) { delete jugadores[1]; jugadores[1] = nullptr; }
     delete ui;
 }
+void MainWindow::pasarTurnoPorTiempo() {
+    // Mostrar aviso modal que bloquea la ventana principal
+    QMessageBox::critical(this, "Tiempo agotado",
+                          "El jugador en turno no actuó en 1 minuto.\nSe pasa el turno automáticamente.");
+
+    // Pasar turno
+    rond++;
+    turno = (turno == 1) ? 2 : 1;
+    actualizar_ui();
+
+    // Reiniciar el timer para el nuevo turno
+    turnoTimer  ->start();
+}
+void MainWindow::actualizarTimerVisual() {
+    tiempoRestante--;
+    ui->timerDisplay->display(tiempoRestante);
+
+    if (tiempoRestante <= 0) {
+        tiempoRestante = 60; // reinicia para el próximo turno
+    }
+    actualizar_ui();
+}
+
+
 void MainWindow::actualizar_ui() {
     if (!jugadores[0] || !jugadores[1]) return; // protección
 
@@ -38,16 +75,14 @@ void MainWindow::actualizar_ui() {
     ui->barra_j2->setRange(0, jugadores[1]->ObtenerVida_t());
     ui->barra_j2->setValue(jugadores[1]->ObtenerVida());
 }
-
-void MainWindow::muerte_sub(int rond, configuracion& config, Ui::MainWindow* ui,int m_muerte_sub) {
-    if ((rond == config.ObtenerRondMuerteSub()) && (m_muerte_sub==0)) {
-        ui->accion->setText("Es la ronda " + QString::number(rond) + ". ¡La muerte súbita empieza!");
+void MainWindow::muerte_sub(int rond, configuracion& config, Ui::MainWindow* ui, int m_muerte_sub) {
+    if ((rond >= config.ObtenerRondMuerteSub()) && !config.ObtenerEstadoMuerteSub()) {
         config.ModificarEstadoMuerteSub(true);
-        //QMessageBox::warning(nullptr, "Muerte súbita", "¡La muerte súbita ha comenzado!");
-        return;
+        ui->accion->setText("Es la ronda " + QString::number(rond) + ". ¡La muerte súbita empieza!");
+        QMessageBox::critical(this, "Muerte súbita", "¡La muerte súbita ha comenzado!");
     }
-    return;
 }
+
 void MainWindow::actualizar_vida(jugador* jugadores[], Ui::MainWindow* ui) {
     double vida_t1 = jugadores[0]->ObtenerVida_t();
     double vida1   = jugadores[0]->ObtenerVida();
@@ -127,8 +162,8 @@ void MainWindow::ataque(jugador* jugadores[], int turno, int dado, configuracion
 
     // Verificar si el defensor murió
     if (jugadores[idx_defensor]->ObtenerVida() <= 0) {
-        ui->pp->setCurrentIndex(1); // cambiar a pantalla de resultado
-        ui->resultado->setText("Ganó Jugador " + QString::number(jugadores[idx_atacante]->ObtenerTurno()));
+        ui->pp->setCurrentIndex(1); // pantalla de resultado
+        ui->resultado->setText("Ganó " + jugadores[idx_atacante]->obtenernombre() + "!");
         return;
     }
 
@@ -145,10 +180,18 @@ void MainWindow::on_ataque_clicked()
 {
     muerte_sub(rond,config,ui,m_muerte_sub);
     dado = tirar_dado(jugadores,turno);
+    // Crear ventana ruleta
+    RuletaDado *ventana = new RuletaDado(this);
+    ventana->iniciarAnimacion(jugadores[turno-1]->ObtenerTipoDado(), dado);
+    ventana->exec(); // ventana modal
     ataque(jugadores,turno,dado,config,ui);
     actualizar_ui();
     rond++;
     turno = (turno == 1) ? 2 : 1;
+    tiempoRestante = 60;
+    turnoTimer->start();
+    muerte_sub(rond, config, ui, m_muerte_sub);
+
 }
 
 void MainWindow::on_iniciar_clicked()
@@ -166,6 +209,9 @@ void MainWindow::on_mejorar_clicked()
     actualizar_ui();
     rond++;
     turno = (turno == 1) ? 2 : 1;
+    tiempoRestante = 60;
+    turnoTimer->start();
+    muerte_sub(rond, config, ui, m_muerte_sub);
 }
 
 void MainWindow::on_p_normal_clicked()
@@ -219,6 +265,9 @@ void MainWindow::on_curacion_clicked()
     dado =tirar_dado(jugadores,turno);
     cura(jugadores,turno,dado,config,ui);
     actualizar_ui();
+    tiempoRestante = 60;
+    turnoTimer->start();
+    muerte_sub(rond, config, ui, m_muerte_sub);
 }
 
 
@@ -258,6 +307,8 @@ void MainWindow::on_siguiente_clicked()
         ui->pp->setCurrentIndex(2);
         ui->nombre->clear();
         ui->accion->clear();
+        tiempoRestante = 60;
+        turnoTimer->start();
     }
 }
 

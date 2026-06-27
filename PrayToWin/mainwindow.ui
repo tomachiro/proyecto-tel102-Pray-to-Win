@@ -27,7 +27,7 @@
      <enum>Qt::LayoutDirection::LeftToRight</enum>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="menu_i">
      <widget class="QPushButton" name="iniciar">
@@ -306,6 +306,16 @@
        </rect>
       </property>
      </widget>
+     <widget class="QLCDNumber" name="timerDisplay">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>430</y>
+        <width>181</width>
+        <height>61</height>
+       </rect>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="personajes">
      <property name="maximumSize">
@@ -549,7 +559,7 @@ es la acción. no olvides
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>25</height>
+     <height>23</height>
     </rect>
    </property>
   </widget>

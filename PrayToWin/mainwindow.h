@@ -1,5 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
+#include "QTimer"
+#include <QMessageBox>
 #include "DisenoPersonajes.h"
 
 #include <QMainWindow>
@@ -76,5 +78,11 @@ private:
     int golpe_crit(configuracion& config);
     void mejora_d(jugador* jugadores[], int turno, Ui::MainWindow* ui);
     void actualizar_ui();
+    QTimer *turnoTimer;
+    void activarMuerteSubita();
+    void pasarTurnoPorTiempo();
+    int tiempoRestante;       // segundos restantes
+    QTimer *timerVisual;      // timer para actualizar el display
+    void actualizarTimerVisual();
 };
 #endif // MAINWINDOW_H
