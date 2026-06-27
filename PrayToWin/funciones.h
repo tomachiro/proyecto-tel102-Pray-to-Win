@@ -99,11 +99,4 @@ public:
     }
 };
 
-int muerte_sub(int n,const configuracion &config);
-int tirar_dado(jugador* jugadores[],int n);
-int ataque(jugador* jugadores[],int n,int dado,const configuracion &config);
-int cura(jugador* jugadores[],int n,int dado,const configuracion &config);
-int golpe_crit(const configuracion &config);
-int acertar_golpe(const configuracion &config);
-QString mejora_d(jugador* jugadores[],int n);
 #endif // FUNCIONES_H

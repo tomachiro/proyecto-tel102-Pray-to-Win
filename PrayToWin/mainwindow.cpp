@@ -11,48 +11,144 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     turno = 1;
     rond = 1;
-    j1 = nullptr;
-    j2 = nullptr;
-
+    m_muerte_sub = 0;
+    dado = 0;
+    jugadores[0] = nullptr;   // inicializar punteros
+    jugadores[1] = nullptr;
 }
-
 MainWindow::~MainWindow()
 {
-    delete j1;
-    delete j2;
+    if (jugadores[0]) { delete jugadores[0]; jugadores[0] = nullptr; }
+    if (jugadores[1]) { delete jugadores[1]; jugadores[1] = nullptr; }
     delete ui;
 }
+void MainWindow::actualizar_ui() {
+    if (!jugadores[0] || !jugadores[1]) return; // protección
+
+    ui->vida_j1->display(jugadores[0]->ObtenerVida());
+    ui->vida_j2->display(jugadores[1]->ObtenerVida());
+    ui->dado_1->setText("dado: " + QString::number(jugadores[0]->ObtenerTipoDado()));
+    ui->dado_2->setText("dado: " + QString::number(jugadores[1]->ObtenerTipoDado()));
+
+    int siguiente = (turno == 1) ? 2 : 1;
+    ui->letoca->setText("le toca a " + jugadores[siguiente-1]->obtenernombre());
+    ui->ronda->display(rond);
+    ui->barra_j1->setRange(0, jugadores[0]->ObtenerVida_t());
+    ui->barra_j1->setValue(jugadores[0]->ObtenerVida());
+    ui->barra_j2->setRange(0, jugadores[1]->ObtenerVida_t());
+    ui->barra_j2->setValue(jugadores[1]->ObtenerVida());
+}
+
+void MainWindow::muerte_sub(int rond, configuracion& config, Ui::MainWindow* ui,int m_muerte_sub) {
+    if ((rond == config.ObtenerRondMuerteSub()) && (m_muerte_sub==0)) {
+        ui->accion->setText("Es la ronda " + QString::number(rond) + ". ¡La muerte súbita empieza!");
+        config.ModificarEstadoMuerteSub(true);
+        //QMessageBox::warning(nullptr, "Muerte súbita", "¡La muerte súbita ha comenzado!");
+        return;
+    }
+    return;
+}
+void MainWindow::actualizar_vida(jugador* jugadores[], Ui::MainWindow* ui) {
+    double vida_t1 = jugadores[0]->ObtenerVida_t();
+    double vida1   = jugadores[0]->ObtenerVida();
+    double vida_t2 = jugadores[1]->ObtenerVida_t();
+    double vida2   = jugadores[1]->ObtenerVida();
+
+    ui->vida_j1->display(vida1);
+    ui->barra_j1->setValue((vida1 / vida_t1) * 100);
+
+    ui->vida_j2->display(vida2);
+    ui->barra_j2->setValue((vida2 / vida_t2) * 100);
+}
+void MainWindow::cura(jugador* jugadores[], int turno, int dado, configuracion& config, Ui::MainWindow* ui) {
+    int idx = turno - 1; // turno 1 -> jugador[0], turno 2 -> jugador[1]
+
+    if (config.ObtenerEstadoMuerteSub()) {
+        ui->accion->setText("Estás en muerte súbita. No te puedes curar");
+        return;
+    }
+
+    int cur = ((jugadores[idx]->ObtenerVida_t() - jugadores[idx]->ObtenerVida()) / 14) * dado;
+
+    if (jugadores[idx]->ObtenerVida() >= jugadores[idx]->ObtenerVida_t()) {
+        ui->accion->setText("Ya tienes vida suficiente");
+    } else if (cur > 0) {
+        jugadores[idx]->ModificarVida(jugadores[idx]->ObtenerVida() + cur);
+        ui->accion->setText(jugadores[idx]->obtenernombre() + " se curó " + QString::number(cur) + " puntos de vida");
+        actualizar_vida(jugadores, ui);
+        return;
+    } else {
+        ui->accion->setText("No te has podido curar");
+    }
+    return;
+}
+int MainWindow::tirar_dado(jugador* jugadores[], int turno) {
+    int idx = turno - 1;
+    return (rand() % jugadores[idx]->ObtenerTipoDado()) + 1;
+}
+void MainWindow::mejora_d(jugador* jugadores[], int turno, Ui::MainWindow* ui) {
+    int idx = turno - 1;
+    int mejora = tirar_dado(jugadores, turno);
+
+    if (mejora == jugadores[idx]->ObtenerTipoDado()) {
+        jugadores[idx]->ModificarTipoDado(jugadores[idx]->ObtenerTipoDado() + 2);
+        ui->accion->setText(jugadores[idx]->obtenernombre() + " mejoró su dado a " +
+                            QString::number(jugadores[idx]->ObtenerTipoDado()) + " caras");
+    } else {
+        ui->accion->setText(jugadores[idx]->obtenernombre() + " no mejoró su dado");
+    }
+}
+int MainWindow::golpe_crit(configuracion& config) {
+    int probabilidad = (rand() % 100) + 1;
+    return (probabilidad <= config.ObtenerGolpeCritico()) ? 1 : 0;
+}
+void MainWindow::ataque(jugador* jugadores[], int turno, int dado, configuracion& config, Ui::MainWindow* ui) {
+    if (!jugadores[0] || !jugadores[1]) return;
+
+    int idx_atacante = turno - 1;
+    int idx_defensor = (turno == 1) ? 1 : 0;
+
+    int probabilidad = (rand() % 100) + 1;
+    bool acierto = (dado == jugadores[idx_atacante]->ObtenerTipoDado()) || (probabilidad <= config.ObtenerGolpeAcierto());
+
+    if (!acierto) {
+        ui->accion->setText(jugadores[idx_atacante]->obtenernombre() + " falló el golpe");
+        return;
+    }
+
+    int dmg = (jugadores[idx_atacante]->ObtenerAtqB() / 2) * dado;
+    int probCrit = (rand() % 100) + 1;
+    if (probCrit <= config.ObtenerGolpeCritico()) {
+        dmg *= config.ObtenerGolpeCritico();
+        ui->accion->setText("¡Golpe crítico de " + jugadores[idx_atacante]->obtenernombre() + "!");
+    }
+
+    jugadores[idx_defensor]->ModificarVida(jugadores[idx_defensor]->ObtenerVida() - dmg);
+
+    // Verificar si el defensor murió
+    if (jugadores[idx_defensor]->ObtenerVida() <= 0) {
+        ui->pp->setCurrentIndex(1); // cambiar a pantalla de resultado
+        ui->resultado->setText("Ganó Jugador " + QString::number(jugadores[idx_atacante]->ObtenerTurno()));
+        return;
+    }
+
+    ui->accion->setText(jugadores[idx_atacante]->obtenernombre() + " hizo " +
+                        QString::number(dmg) + " de daño a " +
+                        jugadores[idx_defensor]->obtenernombre());
+
+    actualizar_vida(jugadores, ui);
+}
+
+
 
 void MainWindow::on_ataque_clicked()
 {
-    ui->ronda->display(rond);
-    if (turno == 1) {
-        double dano = (j1->ObtenerAtqB() / 2.0) * (rand() % j1->ObtenerTipoDado() + 1);
-        j2->ModificarVida(j2->ObtenerVida() - dano);
-        ui->vida_j2->display(j2->ObtenerVida());
-        ui->barra_j2->setValue(j2->ObtenerVida());
-        if (j2->ObtenerVida() <= 0) {
-            ui->pp->setCurrentIndex(1);
-            ui->resultado->setText("Ganó " + j1->obtenernombre() + "!");
-            return;
-        }
-        turno = 2;
-        ui->letoca->setText("le toca a "+j2->obtenernombre());
-    } else {
-       double dano = (j2->ObtenerAtqB() / 2.0) * (rand() % j2->ObtenerTipoDado() + 1);
-        j1->ModificarVida(j1->ObtenerVida() - dano);
-        ui->vida_j1->display(j1->ObtenerVida());
-        ui->barra_j1->setValue(j1->ObtenerVida());
-        if (j1->ObtenerVida() <= 0) {
-            ui->pp->setCurrentIndex(1);
-            ui->resultado->setText("Ganó " + j2->obtenernombre() + "!");
-            return;
-        }
-        turno = 1;
-        ui->letoca->setText("le toca a "+j1->obtenernombre());
-        rond++;
-    }
-    ui->ronda->display(rond);
+    muerte_sub(rond,config,ui,m_muerte_sub);
+    dado = tirar_dado(jugadores,turno);
+    ataque(jugadores,turno,dado,config,ui);
+    actualizar_ui();
+    rond++;
+    turno = (turno == 1) ? 2 : 1;
 }
 
 void MainWindow::on_iniciar_clicked()
@@ -66,48 +162,21 @@ void MainWindow::on_iniciar_clicked()
 
 void MainWindow::on_mejorar_clicked()
 {
-    ui->ronda->display(rond);
-    int dado=0;
-    if(turno==1){
-        dado=rand() % j1->ObtenerTipoDado() + 1;
-        if (dado==j1->ObtenerTipoDado()){
-            j1->ModificarTipoDado(j1->ObtenerTipoDado()+2);
-            ui->dado_1->setText("dado: "+QString::number(j1->ObtenerTipoDado()));
-            ui->accion->setText(j1->obtenernombre()+" mejoraste el dado ahora es de " + QString::number(j1->ObtenerTipoDado())+" caras");
-            turno+=1;
-        }
-        else{
-            ui->accion->setText(j1->obtenernombre()+" no mejoraste el dado sigue siendo de " + QString::number(j1->ObtenerTipoDado())+" caras");
-            turno+=1;
-        }
-        ui->letoca->setText("le toca a "+j2->obtenernombre());
-    }
-    else if(turno==2){
-        dado=rand() % j2->ObtenerTipoDado() + 1;
-        if (dado==j1->ObtenerTipoDado()){
-            j2->ModificarTipoDado(j2->ObtenerTipoDado()+2);
-            ui->dado_2->setText("dado: "+QString::number(j2->ObtenerTipoDado()));
-            ui->accion->setText(j2->obtenernombre()+" mejoraste el dado ahora es de " + QString::number(j2->ObtenerTipoDado())+" caras");
-            turno=1;
-        }
-        else{
-            ui->accion->setText(j2->obtenernombre()+" no mejoraste el dado sigue siendo de " + QString::number(j2->ObtenerTipoDado())+" caras");
-            turno=1;
-        }
-        ui->letoca->setText("le toca a "+j1->obtenernombre());
-    }
+    mejora_d(jugadores,turno,ui);
+    actualizar_ui();
     rond++;
+    turno = (turno == 1) ? 2 : 1;
 }
 
 void MainWindow::on_p_normal_clicked()
 {
 
     if (turno==1){
-        j1 = new jugador(1);
+        jugadores[0] = new jugador(1);
         ui->pp->setCurrentIndex(4);
     }
     else if(turno==2){
-        j2 = new jugador(2);
+        jugadores[1] = new jugador(2);
         ui->pp->setCurrentIndex(4);
     }
 }
@@ -115,11 +184,11 @@ void MainWindow::on_p_normal_clicked()
 void MainWindow::on_p_tanque_clicked()
 {
     if (turno==1){
-        j1 = new tanque(1);
+        jugadores[0] = new tanque(1);
         ui->pp->setCurrentIndex(4);
     }
     else if(turno==2){
-        j2 = new tanque(2);
+        jugadores[1] = new tanque(2);
         ui->pp->setCurrentIndex(4);
     }
 }
@@ -127,11 +196,11 @@ void MainWindow::on_p_tanque_clicked()
 void MainWindow::on_p_suertudo_clicked()
 {
     if (turno==1){
-        j1 = new suertudo(1);
+        jugadores[0] = new suertudo(1);
         ui->pp->setCurrentIndex(4);
     }
     else if(turno==2){
-        j2 = new suertudo(2);
+        jugadores[1] = new suertudo(2);
 
         ui->pp->setCurrentIndex(4);
     }
@@ -139,43 +208,27 @@ void MainWindow::on_p_suertudo_clicked()
 void MainWindow::on_rendirse_clicked()
 {
     if (turno == 1) {
-        ui->resultado->setText("Ganó " + j2->obtenernombre() + "!");
+        ui->resultado->setText("Ganó " + jugadores[1]->obtenernombre() + "!");
     } else {
-        ui->resultado->setText("Ganó " + j1->obtenernombre() + "!");
+        ui->resultado->setText("Ganó " + jugadores[0]->obtenernombre() + "!");
     }
     ui->pp->setCurrentIndex(1);
 }
 void MainWindow::on_curacion_clicked()
 {
-    if (turno == 1) {
-        double nuevaVida = j1->ObtenerVida() + 20;
-        if (nuevaVida > j1->ObtenerVida_t()) nuevaVida = j1->ObtenerVida_t();
-        j1->ModificarVida(nuevaVida);
-        ui->vida_j1->display(j1->ObtenerVida());
-        ui->barra_j1->setValue(j1->ObtenerVida());
-        ui->accion->setText(j1->obtenernombre()+" te curaste " + QString::number(20)+" puntos de vida");
-        turno = 2;
-    } else {
-        double nuevaVida = j2->ObtenerVida() + 20;
-        if (nuevaVida > j2->ObtenerVida_t()) nuevaVida = j2->ObtenerVida_t();
-        j2->ModificarVida(nuevaVida);
-        ui->vida_j2->display(j2->ObtenerVida());
-        ui->barra_j2->setValue(j2->ObtenerVida());
-        ui->accion->setText(j2->obtenernombre()+" te curaste " + QString::number(20)+" puntos de vida");
-        turno = 1;
-        rond++;
-    }
-    ui->ronda->display(rond);
+    dado =tirar_dado(jugadores,turno);
+    cura(jugadores,turno,dado,config,ui);
+    actualizar_ui();
 }
 
 
 void MainWindow::on_nombre_textEdited(const QString &arg1)
 {
     if (turno==1){
-        j1->modificarnombre(arg1);
+        jugadores[0]->modificarnombre(arg1);
     }
     else{
-        j2->modificarnombre(arg1);
+        jugadores[1]->modificarnombre(arg1);
     }
 }
 
@@ -190,17 +243,18 @@ void MainWindow::on_siguiente_clicked()
     }
     else{
         turno=1;
-        ui->nom_1->setText(j1->obtenernombre());
-        ui->nom_2->setText(j2->obtenernombre());
-        ui->vida_j1->display(j1->ObtenerVida());
-        ui->vida_j2->display(j2->ObtenerVida());
-        ui->dado_1->setText("dado: "+QString::number(j1->ObtenerTipoDado()));
-        ui->dado_2->setText("dado: "+QString::number(j2->ObtenerTipoDado()));
-        ui->letoca->setText("le toca a "+j1->obtenernombre());
-        ui->barra_j1->setRange(0,j1->ObtenerVida_t());
-        ui->barra_j1->setValue(j1->ObtenerVida());
-        ui->barra_j2->setRange(0,j2->ObtenerVida_t());
-        ui->barra_j2->setValue(j2->ObtenerVida());
+        ui->nom_1->setText(jugadores[0]->obtenernombre());
+        ui->nom_2->setText(jugadores[1]->obtenernombre());
+        ui->vida_j1->display(jugadores[0]->ObtenerVida());
+        ui->vida_j2->display(jugadores[1]->ObtenerVida());
+        ui->dado_1->setText("dado: "+QString::number(jugadores[0]->ObtenerTipoDado()));
+        ui->dado_2->setText("dado: "+QString::number(jugadores[1]->ObtenerTipoDado()));
+        ui->letoca->setText("le toca a "+jugadores[0]->obtenernombre());
+        ui->barra_j1->setRange(0,jugadores[0]->ObtenerVida_t());
+        ui->barra_j1->setValue(jugadores[0]->ObtenerVida());
+        ui->barra_j2->setRange(0,jugadores[1]->ObtenerVida_t());
+        ui->barra_j2->setValue(jugadores[1]->ObtenerVida());
+        ui->ronda->display(rond);
         ui->pp->setCurrentIndex(2);
         ui->nombre->clear();
         ui->accion->clear();
@@ -213,12 +267,9 @@ void MainWindow::on_siguiente_clicked()
 
 void MainWindow::on_reiniciar_clicked()
 {
-    delete j1;
-    j1 = nullptr;
-    delete j2;
-    j2 = nullptr;
-    turno = 1;
-    rond = 1;
+    turno=1;
+    delete jugadores[0];
+    delete jugadores[1];
     ui->pp->setCurrentIndex(0);
 }
 
