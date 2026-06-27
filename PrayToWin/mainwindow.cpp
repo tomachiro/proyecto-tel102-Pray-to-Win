@@ -153,9 +153,12 @@ void MainWindow::on_ataque_clicked()
 
 void MainWindow::on_iniciar_clicked()
 {
+    turno = 1;
+    rond = 1;
     ui->turno->setText("Jugador 1");
     ui->pp->setCurrentIndex(3);
 }
+
 
 void MainWindow::on_mejorar_clicked()
 {
@@ -205,9 +208,9 @@ void MainWindow::on_p_suertudo_clicked()
 void MainWindow::on_rendirse_clicked()
 {
     if (turno == 1) {
-        ui->resultado->setText("Ganó Jugador " + QString::number(jugadores[0]->ObtenerTurno()));
+        ui->resultado->setText("Ganó " + jugadores[1]->obtenernombre() + "!");
     } else {
-        ui->resultado->setText("Ganó Jugador " + QString::number(jugadores[1]->ObtenerTurno()));
+        ui->resultado->setText("Ganó " + jugadores[0]->obtenernombre() + "!");
     }
     ui->pp->setCurrentIndex(1);
 }
