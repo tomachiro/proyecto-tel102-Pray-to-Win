@@ -33,7 +33,7 @@ void MainWindow::on_ataque_clicked()
         ui->barra_j2->setValue(j2->ObtenerVida());
         if (j2->ObtenerVida() <= 0) {
             ui->pp->setCurrentIndex(1);
-            ui->resultado->setText("Ganó Jugador " + QString::number(j1->ObtenerTurno()));
+            ui->resultado->setText("Ganó " + j1->obtenernombre() + "!");
             return;
         }
         turno = 2;
@@ -45,7 +45,7 @@ void MainWindow::on_ataque_clicked()
         ui->barra_j1->setValue(j1->ObtenerVida());
         if (j1->ObtenerVida() <= 0) {
             ui->pp->setCurrentIndex(1);
-            ui->resultado->setText("Ganó Jugador " + QString::number(j2->ObtenerTurno()));
+            ui->resultado->setText("Ganó " + j2->obtenernombre() + "!");
             return;
         }
         turno = 1;
@@ -57,9 +57,12 @@ void MainWindow::on_ataque_clicked()
 
 void MainWindow::on_iniciar_clicked()
 {
+    turno = 1;
+    rond = 1;
     ui->turno->setText("Jugador 1");
     ui->pp->setCurrentIndex(3);
 }
+
 
 void MainWindow::on_mejorar_clicked()
 {
@@ -136,9 +139,9 @@ void MainWindow::on_p_suertudo_clicked()
 void MainWindow::on_rendirse_clicked()
 {
     if (turno == 1) {
-        ui->resultado->setText("Ganó Jugador " + QString::number(j2->ObtenerTurno()));
+        ui->resultado->setText("Ganó " + j2->obtenernombre() + "!");
     } else {
-        ui->resultado->setText("Ganó Jugador " + QString::number(j1->ObtenerTurno()));
+        ui->resultado->setText("Ganó " + j1->obtenernombre() + "!");
     }
     ui->pp->setCurrentIndex(1);
 }
@@ -211,7 +214,11 @@ void MainWindow::on_siguiente_clicked()
 void MainWindow::on_reiniciar_clicked()
 {
     delete j1;
+    j1 = nullptr;
     delete j2;
+    j2 = nullptr;
+    turno = 1;
+    rond = 1;
     ui->pp->setCurrentIndex(0);
 }
 
