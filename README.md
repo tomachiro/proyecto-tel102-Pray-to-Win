@@ -50,6 +50,7 @@
   Al iniciar el juego, cada jugador elige entre dos tipos de personaje:
   - **Normal:** vida 100, ataque base 10, dado D6.
   - **Tanque:** vida 150, ataque base 10, dado D2 (más resistente pero menos ofensivo).
+  - **Suertudo:** vida 50, ataque base 10, dado D10 (alto riesgo, alto daño potencial).
   
   ### 7. Golpe crítico
   Con una probabilidad configurable, el ataque puede ser un golpe crítico que multiplica el daño por 1.5 por defecto (valor configurable) al oponente.
@@ -98,6 +99,11 @@ Durante el juego, el jugador puede consultar el historial de acciones de la part
 - **Responsabilidad:** Centralizar los parámetros globales de la partida.
 - **Atributos (privados):** `rond_muerte_sub`, `modo_muerte_sub`, `golpe_critico`, `acierto`
 - **Métodos:** `ObtenerRondMuerteSub()`, `ObtenerGolpeCritico()`, `ObtenerGolpeAcierto()`, `ModificarGolpeCritico()`, `ModificarGolpeAcierto()`, `ModificarEstadoMuerteSub()`
+
+### `CharacterWidget` *(hereda de QWidget)*
+- **Responsabilidad:** Dibujar visualmente al personaje en pantalla según su tipo.
+- **Atributos:** `m_type` (Normal, Tanque, Suertudo)
+- **Métodos:** `setType()`, `paintEvent()`
   
   ## Estado del Proyecto
   
@@ -134,7 +140,9 @@ Durante el juego, el jugador puede consultar el historial de acciones de la part
 | Pantalla de combate con barras de vida | ✅ Hecho |
 | Botones Atacar, Curar y Rendirse conectados | ✅ Hecho |
 | Victoria automática al llegar a 0 de vida | ✅ Hecho |
-| Selección de personaje Suertudo en Qt | ⬜ Pendiente |
+| Tema visual oscuro con stylesheet | ✅ Hecho |
+| Dibujos de personajes con QPainter | ✅ Hecho |
+| Selección de personaje Suertudo en Qt | ✅ Hecho |
   
   ## Compilación y Ejecución
   
@@ -173,6 +181,9 @@ Durante el juego, el jugador puede consultar el historial de acciones de la part
 - Se realizaron pequeñas modificaciones para usar `std::string` en lugar de arreglos de caracteres de C, adaptando el código al estilo C++.
 - El sistema de log usa `sprintf` y `strcat` (funciones de C) ya que aún no se encontró una forma nativa en C++ que cumpla la misma función de manera simple. Se identificó como mejora pendiente.
 - Al editar el archivo `.ui` en Qt Designer, la pantalla activa del QStackedWidget se restablecía sola a la incorrecta. Se corrigió ajustando el valor desde el Property Editor.
+- El archivo `DiseñoPersonajes.h` usaba la letra ñ, lo que impedía que el compilador generara los archivos MOC. Se renombró a `DisenoPersonajes.h`.
+- CMake no incluía automáticamente el directorio fuente en el path de headers, causando errores al compilar. Se resolvió con `target_include_directories`.
+- Qt Designer no renderiza widgets con QPainter en modo diseño, lo que obligó a compilar cada vez para verificar el resultado visual.
   
  ## Ejemplos explicativos de Ejecución
 
