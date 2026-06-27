@@ -158,10 +158,10 @@
      <widget class="QWidget" name="gridLayoutWidget">
       <property name="geometry">
        <rect>
-        <x>580</x>
-        <y>370</y>
-        <width>168</width>
-        <height>80</height>
+        <x>570</x>
+        <y>360</y>
+        <width>211</width>
+        <height>131</height>
        </rect>
       </property>
       <layout class="QGridLayout" name="gridLayout">
@@ -284,6 +284,36 @@
       </property>
       <property name="value">
        <number>24</number>
+      </property>
+     </widget>
+     <widget class="CharacterWidget" name="widget" native="true">
+      <property name="geometry">
+       <rect>
+        <x>150</x>
+        <y>280</y>
+        <width>120</width>
+        <height>180</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="CharacterWidget" name="widget_2" native="true">
+      <property name="geometry">
+       <rect>
+        <x>450</x>
+        <y>270</y>
+        <width>120</width>
+        <height>180</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLCDNumber" name="timerDisplay">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>430</y>
+        <width>181</width>
+        <height>61</height>
+       </rect>
       </property>
      </widget>
     </widget>
@@ -534,6 +564,14 @@ es la acción. no olvides
    </property>
   </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>CharacterWidget</class>
+   <extends>QWidget</extends>
+   <header>DisenoPersonajes.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

@@ -1,4 +1,4 @@
-  # Juego de Turnos por Consola
+  # Juego de Turnos — Pray to Win
   
   ## ¿Por qué creamos este juego?
   
@@ -11,11 +11,15 @@
   Crear un juego por turnos en lenguaje C++, jugable en consola, donde dos jugadores compiten tomando decisiones estratégicas hasta que uno de ellos sea derrotado o se rinda.
   
   ### Objetivos Específicos
+
+- Migrar el proyecto de C a C++ utilizando programación orientada a objetos.
+- Implementar clases con herencia, encapsulamiento y responsabilidades claras.
+- Agregar mecánicas avanzadas: golpe crítico, precisión, mejora de dados y modo muerte súbita.
+- Permitir la selección de personaje entre jugador normal y tanque.
+- Migrar la interfaz de consola a una aplicación gráfica con Qt Widgets.
+- Implementar tres pantallas dentro de una misma ventana usando QStackedWidget.
+- Conectar la lógica del juego con la interfaz mediante señales y slots de Qt.
   
-  - Migrar el proyecto de C a C++ utilizando programación orientada a objetos.
-  - Implementar clases con herencia, encapsulamiento y responsabilidades claras.
-  - Agregar mecánicas avanzadas: golpe crítico, precisión, mejora de dados y modo muerte súbita.
-  - Permitir la selección de personaje entre jugador normal y tanque.
   ## Integrantes y Roles
   
   | Nombre | Rol |
@@ -46,6 +50,7 @@
   Al iniciar el juego, cada jugador elige entre dos tipos de personaje:
   - **Normal:** vida 100, ataque base 10, dado D6.
   - **Tanque:** vida 150, ataque base 10, dado D2 (más resistente pero menos ofensivo).
+  - **Suertudo:** vida 50, ataque base 10, dado D10 (alto riesgo, alto daño potencial).
   
   ### 7. Golpe crítico
   Con una probabilidad configurable, el ataque puede ser un golpe crítico que multiplica el daño por 1.5 por defecto (valor configurable) al oponente.
@@ -85,11 +90,20 @@ Durante el juego, el jugador puede consultar el historial de acciones de la part
   - **Responsabilidad:** Personaje con mayor resistencia y dado reducido.
   - **Atributos propios:** `vida = 150`, `tipoDado = D2`
   - Hereda y reutiliza todos los métodos de `Jugador`.
+  ### `Suertudo` *(hereda de Jugador)*
+  - **Responsabilidad:** Personaje de alto riesgo con dado máximo.
+  - **Atributos propios:** `vida = 50`, `tipoDado = D10`
+  - Hereda y reutiliza todos los métodos de `Jugador`.
   
 ### `Configuracion`
 - **Responsabilidad:** Centralizar los parámetros globales de la partida.
 - **Atributos (privados):** `rond_muerte_sub`, `modo_muerte_sub`, `golpe_critico`, `acierto`
 - **Métodos:** `ObtenerRondMuerteSub()`, `ObtenerGolpeCritico()`, `ObtenerGolpeAcierto()`, `ModificarGolpeCritico()`, `ModificarGolpeAcierto()`, `ModificarEstadoMuerteSub()`
+
+### `CharacterWidget` *(hereda de QWidget)*
+- **Responsabilidad:** Dibujar visualmente al personaje en pantalla según su tipo.
+- **Atributos:** `m_type` (Normal, Tanque, Suertudo)
+- **Métodos:** `setType()`, `paintEvent()`
   
   ## Estado del Proyecto
   
@@ -116,12 +130,19 @@ Durante el juego, el jugador puede consultar el historial de acciones de la part
   | Modo muerte súbita | ✅ Hecho |
   | Traducción a C++ | ✅ Hecho |
   
-  ### Hito 3 (próximos pasos)
-  
-  | Tarea | Estado |
-  | --- | --- |
-  | Agregar más tipos de personajes  | ⬜ Pendiente |
-  | Implementar interfaz grafica con qt | ⬜ Pendiente |
+  ### Hito 3
+
+| Tarea | Estado |
+| --- | --- |
+| Interfaz gráfica con Qt (QStackedWidget) | ✅ Hecho |
+| Pantalla de menú | ✅ Hecho |
+| Pantalla de selección de personaje | ✅ Hecho |
+| Pantalla de combate con barras de vida | ✅ Hecho |
+| Botones Atacar, Curar y Rendirse conectados | ✅ Hecho |
+| Victoria automática al llegar a 0 de vida | ✅ Hecho |
+| Tema visual oscuro con stylesheet | ✅ Hecho |
+| Dibujos de personajes con QPainter | ✅ Hecho |
+| Selección de personaje Suertudo en Qt | ✅ Hecho |
   
   ## Compilación y Ejecución
   
@@ -138,17 +159,31 @@ Durante el juego, el jugador puede consultar el historial de acciones de la part
   ```bash
   ./juego
   ```
+### Interfaz Gráfica (Qt)
+
+**Requisitos**
+- Qt 6.x instalado con kit MinGW 64-bit
+- Qt Creator
+
+**Compilar y ejecutar**
+1. Abrir `PrayToWin/CMakeLists.txt` en Qt Creator
+2. Seleccionar el kit Desktop Qt 6.x MinGW 64-bit
+3. Presionar el botón Run (▶)
   
   ## Estructura del repositorio
   - `/src` → Carpeta donde se guarda todo el código fuente.
   - `IA_USAGE.md`→ Archivo con extensión de texto donde queda explícito que modelos de IA y Prompts se usaron para el proyecto.
-  
+  - `/PrayToWin` → Código fuente de la interfaz gráfica con Qt (Hito 3).
   ## Dificultades Encontradas
   
 - La migración se realizó como traducción directa del código C original, lo que permitió conservar gran parte de la logica sin reescribirlas desde cero.
 - Al encapsular los atributos de `Jugador` como privados, la barra de vida en consola dejó de poder modificarse carácter por carácter directamente, lo que requirió crear el método `Modificar_Vida_c_pos()` como solución.
 - Se realizaron pequeñas modificaciones para usar `std::string` en lugar de arreglos de caracteres de C, adaptando el código al estilo C++.
 - El sistema de log usa `sprintf` y `strcat` (funciones de C) ya que aún no se encontró una forma nativa en C++ que cumpla la misma función de manera simple. Se identificó como mejora pendiente.
+- Al editar el archivo `.ui` en Qt Designer, la pantalla activa del QStackedWidget se restablecía sola a la incorrecta. Se corrigió ajustando el valor desde el Property Editor.
+- El archivo `DiseñoPersonajes.h` usaba la letra ñ, lo que impedía que el compilador generara los archivos MOC. Se renombró a `DisenoPersonajes.h`.
+- CMake no incluía automáticamente el directorio fuente en el path de headers, causando errores al compilar. Se resolvió con `target_include_directories`.
+- Qt Designer no renderiza widgets con QPainter en modo diseño, lo que obligó a compilar cada vez para verificar el resultado visual.
   
  ## Ejemplos explicativos de Ejecución
 

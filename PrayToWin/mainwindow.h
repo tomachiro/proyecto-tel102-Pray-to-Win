@@ -1,6 +1,8 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
-
+#include "QTimer"
+#include <QMessageBox>
+#include "DisenoPersonajes.h"
 
 #include <QMainWindow>
 #include "funciones.h"
@@ -58,12 +60,29 @@ private slots:
 
     void on_prob_acierto_textChanged(const QString &arg1);
 
+
+
 private:
     int turno;
     int rond;
-    jugador* j1;
-    jugador* j2;
+    int m_muerte_sub;
+    int dado;
+    jugador* jugadores[2];
     configuracion config;
     Ui::MainWindow *ui;
+    void muerte_sub(int rond, configuracion& config, Ui::MainWindow* ui,int m_muerte_sub);
+    void actualizar_vida(jugador* jugadores[], Ui::MainWindow* ui);
+    int tirar_dado(jugador* jugadores[], int turno);
+    void ataque(jugador* jugadores[], int turno, int dado, configuracion& config, Ui::MainWindow* ui);
+    void cura(jugador* jugadores[], int turno, int dado, configuracion& config, Ui::MainWindow* ui);
+    int golpe_crit(configuracion& config);
+    void mejora_d(jugador* jugadores[], int turno, Ui::MainWindow* ui);
+    void actualizar_ui();
+    QTimer *turnoTimer;
+    void activarMuerteSubita();
+    void pasarTurnoPorTiempo();
+    int tiempoRestante;       // segundos restantes
+    QTimer *timerVisual;      // timer para actualizar el display
+    void actualizarTimerVisual();
 };
 #endif // MAINWINDOW_H
